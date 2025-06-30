@@ -1,0 +1,39 @@
+# Archivo .gitignore para un proyecto PHP
+
+# 1. Dependencias de Composer (La regla más importante para PHP moderno)
+# Nunca se suben las librerías de terceros. Composer las gestiona.
+# Aunque no lo usamos en esta guía, es LA MEJOR práctica incluirlo siempre.
+/vendor/
+
+# 2. Archivos de configuración de entorno
+# Contienen contraseñas de base de datos, claves de API, etc. ¡Nunca deben subirse!
+# En su lugar, se suele subir un archivo de ejemplo como .env.example
+.env
+.env.local
+.env.*.local
+
+# 3. Archivos de Log
+# Crecen constantemente y son específicos de cada ejecución, no son parte del código.
+*.log
+logs/
+
+# 4. Archivos generados por el sistema operativo
+# Son archivos de metadatos de tu SO y no aportan nada al proyecto.
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# 5. Archivos de configuración de editores de código e IDEs
+# Cada desarrollador tiene su propia configuración, no se debe compartir.
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+nbproject/
+
+# 6. Archivos temporales o de prueba que creamos durante las guías
+test.txt
+errores_aplicacion.log
+
+# 7. Archivos de caché
+cache/

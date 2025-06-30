@@ -1,0 +1,110 @@
+/* Estilos Generales */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    line-height: 1.6;
+    background-color: #f4f4f4;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+h1, h2, h3, h4 {
+    color: #343a40;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+h2 {
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 10px;
+    margin-top: 0;
+}
+
+h4 {
+    margin-top: 15px;
+    margin-bottom: 5px;
+    font-style: italic;
+    color: #555;
+}
+
+/* Estilos para los Bloques de Código */
+pre {
+    background: #282c34;
+    color: #abb2bf;
+    padding: 15px;
+    border-radius: 5px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    font-family: "Fira Code", "Courier New", monospace;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+code {
+    font-family: inherit;
+}
+
+/* Estilos para la Navegación de la Guía */
+.nav-index {
+    background: #e9ecef;
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 30px;
+}
+
+.nav-index ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.nav-index li {
+    margin-right: 15px;
+    margin-bottom: 5px;
+}
+
+.nav-index a {
+    text-decoration: none;
+    color: #007bff;
+    font-weight: bold;
+}
+
+.nav-index a:hover {
+    text-decoration: underline;
+}
+
+.section {
+    margin-bottom: 40px;
+    padding-top: 20px;
+    border-top: 2px solid #eee;
+}
+
+/* Estilos para Notas y Advertencias */
+.warning, .log-output {
+    background-color: #fff3cd;
+    border-left: 5px solid #ffeeba;
+    padding: 15px;
+    margin-top: 10px;
+    border-radius: 4px;
+}
+
+.log-output {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    font-family: "Courier New", monospace;
+    color: #212529;
+}
