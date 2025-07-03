@@ -1,0 +1,142 @@
+/* =================================
+   Variables de Diseño (Tema Oscuro)
+   ================================= */
+:root {
+    --color-background: #1e1e1e; /* Fondo oscuro tipo VS Code */
+    --color-surface: #252526;    /* Fondo para las tarjetas y contenedores */
+    --color-text: #cccccc;       /* Color de texto principal (gris claro) */
+    --color-heading: #ffffff;    /* Color para títulos (blanco) */
+    --color-primary: #007acc;     /* Azul de acento para enlaces y bordes */
+    --color-border: #333333;      /* Color para bordes sutiles */
+    
+    --font-body: 'Fira Sans', sans-serif;
+    --font-code: 'Fira Code', monospace;
+}
+
+/* =================================
+   Estilos Generales y Reset
+   ================================= */
+body {
+    font-family: var(--font-body);
+    line-height: 1.7;
+    background-color: var(--color-background);
+    color: var(--color-text);
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: var(--color-surface);
+    border-radius: 8px;
+    border: 1px solid var(--color-border);
+}
+
+/* =================================
+   Tipografía
+   ================================= */
+h1, h2, h3, h4 {
+    color: var(--color-heading);
+    font-weight: 700;
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: 10px;
+}
+
+h1 { text-align: center; margin-bottom: 20px; font-size: 2.5em; }
+h2 { margin-top: 40px; font-size: 2em; }
+h3 { font-size: 1.5em; border-bottom: none; }
+h4 { font-size: 1.2em; color: var(--color-primary); font-style: italic; border-bottom: none; margin-top: 25px; }
+
+a {
+    color: var(--color-primary);
+    text-decoration: none;
+    transition: color 0.2s;
+}
+a:hover {
+    text-decoration: underline;
+    color: #3399ff;
+}
+
+/* =================================
+   Componentes Específicos
+   ================================= */
+
+/* Índice Rápido y Navegación */
+.nav-index, .pagination-nav {
+    background: rgba(0, 0, 0, 0.2);
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 30px;
+    border: 1px solid var(--color-border);
+}
+
+.nav-index ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+/* Bloques de Código */
+pre {
+    background: #2d2d2d !important; /* Forzamos un fondo consistente */
+    border-radius: 5px;
+    padding: 15px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    font-family: var(--font-code);
+    font-size: 14px;
+    border: 1px solid var(--color-border);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+code {
+    font-family: var(--font-code);
+}
+
+/* Alertas y Notas */
+.warning, .log-output {
+    background-color: rgba(255, 229, 100, 0.1);
+    border-left: 5px solid #ffe564;
+    padding: 15px;
+    margin-top: 10px;
+    border-radius: 4px;
+    color: #ffe564;
+}
+
+.log-output {
+    background-color: rgba(0, 122, 204, 0.1);
+    border-left-color: var(--color-primary);
+    color: var(--color-text);
+}
+
+/* Paginación */
+.pagination-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 40px;
+}
+.pagination-nav a {
+    font-weight: bold;
+    padding: 10px 15px;
+    border-radius: 5px;
+    background-color: var(--color-primary);
+    color: var(--color-heading);
+    border: none;
+    transition: background-color 0.2s;
+}
+.pagination-nav a:hover {
+    background-color: #005a9e;
+    text-decoration: none;
+}
+.pagination-nav .disabled {
+    padding: 10px 15px;
+    color: #6c757d;
+    background-color: transparent;
+    pointer-events: none;
+}

@@ -35,11 +35,11 @@ Para ejecutar esta guía en tu propio equipo, necesitas un entorno de servidor l
 
 1.  **Clona el repositorio:**
     ```bash
-    git clone [https://www.tiktok.com/@midudev/video/7502070681085971734](https://www.tiktok.com/@midudev/video/7502070681085971734)
+    git clone [https://github.com/OsmarGimenez/PHP_DESDE_0_GUIA.git](https://github.com/OsmarGimenez/PHP_DESDE_0_GUIA.git)
     ```
-2.  **Mueve los archivos:** Copia toda la carpeta del proyecto dentro del directorio raíz de tu servidor web (normalmente `htdocs` en XAMPP o `www` en WAMP/MAMP).
+2.  **Mueve los archivos:** Copia toda la carpeta del proyecto (`PHP_DESDE_0_GUIA`) dentro del directorio raíz de tu servidor web (normalmente `htdocs` en XAMPP o `www` en WAMP/MAMP).
 3.  **Inicia tu servidor:** Asegúrate de que los servicios de Apache y PHP estén corriendo.
-4.  **Abre en el navegador:** Ve a `http://localhost/nombre-de-la-carpeta/inicio.php`.
+4.  **Abre en el navegador:** Ve a `http://localhost/PHP_DESDE_0_GUIA/inicio.php`.
 
 ## Tecnologías Utilizadas
 
@@ -50,7 +50,7 @@ Para ejecutar esta guía en tu propio equipo, necesitas un entorno de servidor l
 
 ## Autor
 
-* **[TU NOMBRE AQUÍ]**
+* **OSMAR GIMÉNEZ**
 * **LinkedIn:** [ENLACE A TU PERFIL DE LINKEDIN AQUÍ]
 
 ## Licencia
