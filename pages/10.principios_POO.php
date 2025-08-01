@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Principios de la POO en PHP</title>
     
-    <link rel="stylesheet" href="estilos.css">
+    <link rel="stylesheet" href="../assets/css/estilos.css">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css">
 </head>
@@ -219,7 +219,7 @@ $miCafetera = new Cafetera();
             ?></pre>
         </section>
 
-        <?php include '_paginacion.php'; ?>
+        <?php include '../templates/_paginacion.php'; ?>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>

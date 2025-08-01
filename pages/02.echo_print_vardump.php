@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Guía de Salida en PHP: echo, print, print_r y var_dump</title>
     
-    <link rel="stylesheet" href="estilos.css">
+    <link rel="stylesheet" href="../assets/css/estilos.css">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css">
 </head>
@@ -243,7 +243,7 @@ var_dump($datosMixtos);
             </table>
         </section>
 
-        <?php include '_paginacion.php'; ?>
+        <?php include '../templates/_paginacion.php'; ?>
 
     </div>
 

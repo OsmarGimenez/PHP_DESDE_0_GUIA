@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Iniciación a PHP: Etiquetas y Sintaxis Básica</title>
     
-    <link rel="stylesheet" href="estilos.css">
+    <link rel="stylesheet" href="../assets/css/estilos.css">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css">
 </head>
@@ -193,7 +193,7 @@ echo "&lt;br&gt;Estado: " . $estado;
             ?></pre>
         </section>
 
-        <?php include '_paginacion.php'; ?>
+        <?php include '../templates/_paginacion.php'; ?>
 
     </div>
 

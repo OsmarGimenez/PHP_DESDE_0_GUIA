@@ -72,7 +72,7 @@ if ($indiceActual !== false && $indiceActual < (count($paginas) - 1)) {
         <span class="disabled">← Anterior</span>
     <?php endif; ?>
 
-    <a href="inicio.php">Volver al Índice</a>
+    <a href="../inicio.php">Volver al Índice</a>
 
     <?php if ($paginaSiguiente): ?>
         <a href="<?php echo $paginaSiguiente; ?>">Siguiente →</a>

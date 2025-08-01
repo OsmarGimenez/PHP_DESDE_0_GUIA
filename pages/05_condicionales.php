@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Guía de Estructuras de Control en PHP</title>
     
-    <link rel="stylesheet" href="estilos.css">
+    <link rel="stylesheet" href="../assets/css/estilos.css">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css">
 </head>
@@ -262,7 +262,7 @@ for ($j = 1; $j <= 4; $j++) {
             ?></pre>
         </section>
 
-        <?php include '_paginacion.php'; ?>
+        <?php include '../templates/_paginacion.php'; ?>
 
     </div>
 

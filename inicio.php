@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Guía Completa de PHP - Índice Principal</title>
-    <link rel="stylesheet" href="estilos.css">
+    <link rel="stylesheet" href="assets/css/estilos.css">
     <style>
         /* Estilos específicos para la página de índice */
         .index-list {
@@ -38,17 +38,17 @@
         <p>Bienvenido al índice principal. Cada enlace te llevará a una guía detallada sobre un concepto fundamental de PHP.</p>
 
         <ol class="index-list">
-            <li><a href="01.etiquetas.php">1. Iniciación a PHP: Etiquetas y Sintaxis</a></li>
-            <li><a href="02.echo_print_vardump.php">2. Guía de Salida: echo, print, etc.</a></li>
-            <li><a href="03.variables_y_constantes.php">3. Guía de Variables y Constantes</a></li>
-            <li><a href="04.operadores.php">4. Guía de Operadores</a></li>
-            <li><a href="05_condicionales.php">5. Guía de Estructuras de Control</a></li>
-            <li><a href="06.arrays.php">6. Guía Completa de Arrays</a></li>
-            <li><a href="07.funciones.php">7. Guía de Funciones</a></li>
-            <li><a href="08.funciones_clases_objetos.php">8. Guía de Clases y Objetos (POO Básica)</a></li>
-            <li><a href="09.try_catch_y_exepciones.php">9. Guía de Errores y Excepciones</a></li>
-            <li><a href="10.principios_POO.php">10. Guía de Principios de la POO</a></li>
-            <li><a href="11.namespace_interfaces_traits.php">11. Guía Avanzada de POO</a></li>
+            <li><a href="pages/01.etiquetas.php">1. Iniciación a PHP: Etiquetas y Sintaxis</a></li>
+            <li><a href="pages/02.echo_print_vardump.php">2. Guía de Salida: echo, print, etc.</a></li>
+            <li><a href="pages/03.variables_y_constantes.php">3. Guía de Variables y Constantes</a></li>
+            <li><a href="pages/04.operadores.php">4. Guía de Operadores</a></li>
+            <li><a href="pages/05_condicionales.php">5. Guía de Estructuras de Control</a></li>
+            <li><a href="pages/06.arrays.php">6. Guía Completa de Arrays</a></li>
+            <li><a href="pages/07.funciones.php">7. Guía de Funciones</a></li>
+            <li><a href="pages/08.funciones_clases_objetos.php">8. Guía de Clases y Objetos (POO Básica)</a></li>
+            <li><a href="pages/09.try_catch_y_exepciones.php">9. Guía de Errores y Excepciones</a></li>
+            <li><a href="pages/10.principios_POO.php">10. Guía de Principios de la POO</a></li>
+            <li><a href="pages/11.namespace_interfaces_traits.php">11. Guía Avanzada de POO</a></li>
         </ol>
     </div>
 </body>
