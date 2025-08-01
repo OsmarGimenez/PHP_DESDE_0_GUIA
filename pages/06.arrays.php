@@ -1,17 +1,10 @@
-<!DOCTYPE html>
-<html lang="es">
+<?php 
+    $page_title = "6. Guía Completa de Arrays";
+    include '../templates/_header.php';
+    include '../templates/_sidebar.php';
+?>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Guía Completa de Arrays en PHP</title>
-    
-    <link rel="stylesheet" href="../assets/css/estilos.css">
-    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css">
-</head>
-
-<body>
+<main class="content">
     <div class="container">
         <h1>Guía Completa de Arrays en PHP</h1>
 
@@ -29,35 +22,32 @@
 
         <section id="creacion" class="section">
             <h2>Creación de Arrays</h2>
-            <p>Un array es una variable especial que puede contener múltiples valores bajo un solo nombre. Hay tres tipos principales.</p>
+            <p>Un array es una variable especial que puede contener múltiples valores bajo un solo nombre.</p>
             <h4>Código de Definición:</h4>
             <pre><code class="language-php">&lt;?php
-// 1. Array Indexado: Las claves son números enteros (empezando en 0).
+// 1. Array Indexado (claves numéricas)
 $frutas = ["Manzana", "Banana", "Cereza"];
 
-// 2. Array Asociativo: Las claves son cadenas de texto (strings).
+// 2. Array Asociativo (claves de texto)
 $usuario = [
     "nombre" => "Carlos",
     "edad" => 30,
-    "ciudad" => "Asunción"
 ];
 
-// 3. Array Multidimensional: Un array que contiene otros arrays.
+// 3. Array Multidimensional (arrays dentro de arrays)
 $usuarios = [
     ["nombre" => "Ana", "email" => "ana@correo.com"],
     ["nombre" => "Luis", "email" => "luis@correo.com"]
 ];
 ?&gt;</code></pre>
-            <h4>Salida del Código (usando `print_r` para visualizar):</h4>
+            <h4>Salida del Código (usando `print_r`):</h4>
             <pre><?php
                 echo "1. Array Indexado:\n";
                 $frutas = ["Manzana", "Banana", "Cereza"];
                 print_r($frutas);
-
                 echo "\n2. Array Asociativo:\n";
-                $usuario = ["nombre" => "Carlos", "edad" => 30, "ciudad" => "Asunción"];
+                $usuario = ["nombre" => "Carlos", "edad" => 30];
                 print_r($usuario);
-
                 echo "\n3. Array Multidimensional:\n";
                 $usuarios = [ ["nombre" => "Ana", "email" => "ana@correo.com"], ["nombre" => "Luis", "email" => "luis@correo.com"] ];
                 print_r($usuarios);
@@ -66,177 +56,143 @@ $usuarios = [
 
         <section id="acceso-modificacion" class="section">
             <h2>Acceso y Modificación de Elementos</h2>
-            <p>Se accede, modifica y elimina elementos usando su clave (índice o nombre) entre corchetes `[]`.</p>
+            <p>Se accede, modifica y elimina elementos usando su clave entre corchetes `[]`.</p>
             <h4>Código de Definición:</h4>
             <pre><code class="language-php">&lt;?php
-$config = ["tema" => "oscuro", "idioma" => "es", "notificaciones" => true];
+$config = ["tema" => "oscuro", "idioma" => "es"];
 
-// 1. Acceder a un elemento
-$temaActual = $config["tema"];
+// Acceder
+echo "Idioma actual: " . $config["idioma"] . "\n";
 
-// 2. Modificar un elemento
+// Modificar
 $config["idioma"] = "en";
+echo "Idioma nuevo: " . $config["idioma"] . "\n";
 
-// 3. Añadir un nuevo elemento
-$config["zonaHoraria"] = "America/Asuncion";
+// Añadir
+$config["notificaciones"] = true;
 
-// 4. Añadir un elemento a un array indexado (al final)
-$numeros = [10, 20, 30];
-$numeros[] = 40;
+// Eliminar
+unset($config["tema"]);
 
-// 5. Eliminar un elemento
-unset($config["notificaciones"]);
+print_r($config);
 ?&gt;</code></pre>
             <h4>Salida del Código:</h4>
             <pre><?php
-                $config = ["tema" => "oscuro", "idioma" => "es", "notificaciones" => true];
-                echo "1. Acceso: El tema actual es '" . $config["tema"] . "'.\n";
+                $config = ["tema" => "oscuro", "idioma" => "es"];
+                echo "Idioma actual: " . $config["idioma"] . "\n";
                 $config["idioma"] = "en";
-                echo "2. Modificación: El idioma ahora es '" . $config["idioma"] . "'.\n";
-                $config["zonaHoraria"] = "America/Asuncion";
-                echo "3. Adición: Se añadió la zona horaria.\n";
-                $numeros = [10, 20, 30];
-                $numeros[] = 40;
-                echo "4. Array de números ahora contiene: " . implode(', ', $numeros) . "\n";
-                unset($config["notificaciones"]);
-                echo "5. Array de configuración después de eliminar 'notificaciones':\n";
+                echo "Idioma nuevo: " . $config["idioma"] . "\n";
+                $config["notificaciones"] = true;
+                unset($config["tema"]);
                 print_r($config);
             ?></pre>
         </section>
 
         <section id="iteracion" class="section">
             <h2>Iteración de Arrays (Bucles)</h2>
-            <p>La forma más común y eficiente de recorrer un array es con el bucle <code>foreach</code>.</p>
+            <p>La forma más recomendada de recorrer un array es con el bucle <code>foreach</code>.</p>
             <h4>Código de Definición:</h4>
             <pre><code class="language-php">&lt;?php
-// foreach con un array simple (solo obtener el valor):
-$instrumentos = ["Guitarra", "Piano", "Batería"];
-foreach ($instrumentos as $instrumento) {
-    echo "Instrumento: $instrumento\n";
-}
-
-// foreach obteniendo clave y valor:
-$puntuaciones = ["Juan" => 95, "Maria" => 88, "Pedro" => 76];
+// foreach con clave y valor:
+$puntuaciones = ["Juan" => 95, "Maria" => 88];
 foreach ($puntuaciones as $nombre => $puntuacion) {
     echo "$nombre tiene una puntuación de $puntuacion.\n";
 }
 ?&gt;</code></pre>
             <h4>Salida del Código:</h4>
             <pre><?php
-                echo "foreach con solo valores:\n";
-                $instrumentos = ["Guitarra", "Piano", "Batería"];
-                foreach ($instrumentos as $instrumento) { echo "   Instrumento: $instrumento\n"; }
-                echo "\nforeach con clave y valor:\n";
-                $puntuaciones = ["Juan" => 95, "Maria" => 88, "Pedro" => 76];
-                foreach ($puntuaciones as $nombre => $puntuacion) { echo "   $nombre tiene una puntuación de $puntuacion.\n"; }
+                $puntuaciones = ["Juan" => 95, "Maria" => 88];
+                foreach ($puntuaciones as $nombre => $puntuacion) { echo "$nombre tiene una puntuación de $puntuacion.\n"; }
             ?></pre>
         </section>
 
         <section id="funciones-basicas" class="section">
             <h2>Funciones Básicas de Arrays</h2>
-            <p>PHP ofrece cientos de funciones para trabajar con arrays. Aquí están algunas de las más esenciales.</p>
+            <p>Funciones esenciales para manipular y obtener información de arrays.</p>
             <h4>Código de Definición:</h4>
             <pre><code class="language-php">&lt;?php
 $numeros = [1, 5, 2, 5, 4, 1];
-$listaDeComprasStr = "leche,pan,huevos";
 
-// 1. count(): Contar elementos
-$totalNumeros = count($numeros);
+// count(): Contar elementos
+echo "Total de elementos: " . count($numeros) . "\n";
 
-// 2. array_unique(): Eliminar valores duplicados
+// array_unique(): Eliminar valores duplicados
 $numerosUnicos = array_unique($numeros);
-
-// 3. in_array(): Verificar si un valor existe
-$existeElCinco = in_array(5, $numeros);
-
-// 4. implode(): Unir elementos de un array en un string
-$listaCsv = implode(", ", $numerosUnicos);
-
-// 5. explode(): Crear un array desde un string
-$listaDeComprasArr = explode(",", $listaDeComprasStr);
+print_r($numerosUnicos);
 ?&gt;</code></pre>
             <h4>Salida del Código:</h4>
             <pre><?php
                 $numeros = [1, 5, 2, 5, 4, 1];
-                $listaDeComprasStr = "leche,pan,huevos";
-                echo "1. count(): Hay " . count($numeros) . " números en el array original.\n\n";
+                echo "Total de elementos: " . count($numeros) . "\n";
                 $numerosUnicos = array_unique($numeros);
-                echo "2. array_unique():\n"; print_r($numerosUnicos); echo "\n";
-                echo "3. in_array(5): "; var_dump(in_array(5, $numeros)); echo "\n";
-                $listaCsv = implode(", ", $numerosUnicos);
-                echo "4. implode(): '" . $listaCsv . "'\n\n";
-                $listaDeComprasArr = explode(",", $listaDeComprasStr);
-                echo "5. explode():\n"; print_r($listaDeComprasArr);
+                print_r($numerosUnicos);
             ?></pre>
         </section>
 
         <section id="funciones-ordenamiento" class="section">
             <h2>Funciones de Ordenamiento</h2>
-            <p>Permiten ordenar los arrays de distintas maneras: por valor, por clave, en orden ascendente o descendente.</p>
+            <p>Permiten ordenar arrays por valor o por clave.</p>
             <h4>Código de Definición:</h4>
             <pre><code class="language-php">&lt;?php
 $puntuaciones = ["Juan" => 95, "Maria" => 88, "Pedro" => 100];
 
-// asort(): Ordena un array asociativo por valor, manteniendo la asociación de clave
+// asort(): Ordena por valor, manteniendo la clave
 asort($puntuaciones);
+print_r($puntuaciones);
 
-// ksort(): Ordena un array asociativo por clave
+// ksort(): Ordena por clave
 ksort($puntuaciones);
+print_r($puntuaciones);
 ?&gt;</code></pre>
             <h4>Salida del Código:</h4>
             <pre><?php
                 $puntuaciones_asort = ["Juan" => 95, "Maria" => 88, "Pedro" => 100];
                 asort($puntuaciones_asort);
-                echo "asort() (ordena por valor, mantiene clave):\n";
+                echo "asort() (ordenado por valor):\n";
                 print_r($puntuaciones_asort);
 
                 $puntuaciones_ksort = ["Juan" => 95, "Maria" => 88, "Pedro" => 100];
                 ksort($puntuaciones_ksort);
-                echo "\nksort() (ordena por clave):\n";
+                echo "\nksort() (ordenado por clave):\n";
                 print_r($puntuaciones_ksort);
             ?></pre>
         </section>
         
         <section id="funciones-combinacion" class="section">
             <h2>Funciones de Combinación y Comparación</h2>
-            <p>Estas funciones operan con dos o más arrays para combinarlos o encontrar sus diferencias y similitudes.</p>
+            <p>Operan con dos o más arrays para combinarlos o encontrar sus diferencias y similitudes.</p>
             <h4>Código de Definición:</h4>
             <pre><code class="language-php">&lt;?php
 $frontend = ["html", "css", "javascript"];
 $backend = ["php", "mysql", "javascript"];
 
-// 1. array_merge(): Combina dos o más arrays
+// array_merge(): Combina arrays
 $stackCompleto = array_merge($frontend, $backend);
 
-// 2. array_diff(): Calcula la diferencia (lo que está en el 1ro pero no en los otros)
+// array_diff(): Calcula la diferencia
 $soloFrontend = array_diff($frontend, $backend);
 
-// 3. array_intersect(): Calcula la intersección (lo que tienen en común)
+// array_intersect(): Calcula la intersección
 $tecnologiaComun = array_intersect($frontend, $backend);
 ?&gt;</code></pre>
             <h4>Salida del Código:</h4>
             <pre><?php
                 $frontend = ["html", "css", "javascript"];
                 $backend = ["php", "mysql", "javascript"];
-
-                $stackCompleto = array_merge($frontend, $backend);
-                echo "1. array_merge(): (javascript aparece dos veces)\n";
-                print_r($stackCompleto);
-
-                $soloFrontend = array_diff($frontend, $backend);
-                echo "\n2. array_diff(): (lo que solo tiene frontend)\n";
-                print_r($soloFrontend);
-
-                $tecnologiaComun = array_intersect($frontend, $backend);
-                echo "\n3. array_intersect(): (lo que tienen en común)\n";
-                print_r($tecnologiaComun);
+                echo "array_merge():\n";
+                print_r(array_merge($frontend, $backend));
+                echo "\narray_diff():\n";
+                print_r(array_diff($frontend, $backend));
+                echo "\narray_intersect():\n";
+                print_r(array_intersect($frontend, $backend));
             ?></pre>
         </section>
 
-        <?php include '../templates/_paginacion.php'; ?>
     </div>
+    
+    <?php include '../templates/_paginacion.php'; ?>
+</main>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
-</body>
-</html>
+<?php
+    include '../templates/_footer.php';
+?>

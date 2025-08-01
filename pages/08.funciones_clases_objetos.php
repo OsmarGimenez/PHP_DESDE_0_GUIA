@@ -1,17 +1,10 @@
-<!DOCTYPE html>
-<html lang="es">
+<?php 
+    $page_title = "8. Guía de Clases y Objetos (POO Básica)";
+    include '../templates/_header.php';
+    include '../templates/_sidebar.php';
+?>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Guía de Clases y Objetos en PHP (POO)</title>
-    
-    <link rel="stylesheet" href="../assets/css/estilos.css">
-    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css">
-</head>
-
-<body>
+<main class="content">
     <div class="container">
         <h1>Guía de Clases y Objetos en PHP (POO)</h1>
 
@@ -44,9 +37,9 @@ var_dump($cocheDeAna);
 ?&gt;</code></pre>
             <h4>Salida del Código:</h4>
             <pre><?php
-                class Coche_Demo {}
-                $cocheDeJuan = new Coche_Demo();
-                $cocheDeAna = new Coche_Demo();
+                class Coche_Demo_1 {}
+                $cocheDeJuan = new Coche_Demo_1();
+                $cocheDeAna = new Coche_Demo_1();
                 echo "Objeto 1:\n";
                 var_dump($cocheDeJuan);
                 echo "\nObjeto 2:\n";
@@ -68,7 +61,8 @@ $usuario1 = new Usuario();
 $usuario1->nombre = "Marta";
 $usuario1->email = "marta@correo.com";
 
-echo "Nombre: " . $usuario1->nombre;
+echo "Nombre: " . $usuario1->nombre . "\n";
+echo "Email: " . $usuario1->email . "\n";
 ?&gt;</code></pre>
             <h4>Salida del Código:</h4>
             <pre><?php
@@ -76,17 +70,17 @@ echo "Nombre: " . $usuario1->nombre;
                     public $nombre;
                     public $email;
                 }
-                $usuario1 = new Usuario_Propiedades_Demo();
-                $usuario1->nombre = "Marta";
-                $usuario1->email = "marta@correo.com";
-                echo "Nombre: " . $usuario1->nombre . "\n";
-                echo "Email: " . $usuario1->email . "\n";
+                $usuario1_prop = new Usuario_Propiedades_Demo();
+                $usuario1_prop->nombre = "Marta";
+                $usuario1_prop->email = "marta@correo.com";
+                echo "Nombre: " . $usuario1_prop->nombre . "\n";
+                echo "Email: " . $usuario1_prop->email . "\n";
             ?></pre>
         </section>
         
         <section id="metodos" class="section">
             <h2>Métodos: El Comportamiento del Objeto</h2>
-            <p>Los métodos son funciones que pertenecen a una clase. Definen las acciones que un objeto puede realizar.</p>
+            <p>Los métodos son funciones que pertenecen a una clase y definen las acciones que un objeto puede realizar.</p>
             <h4>Código de Definición:</h4>
             <pre><code class="language-php">&lt;?php
 class Producto {
@@ -94,6 +88,7 @@ class Producto {
     public $precio = 1200;
 
     public function mostrarInfo() {
+        // Usamos $this para referirnos a las propiedades de este objeto
         echo "Producto: " . $this->nombre . ", Precio: " . $this->precio . " USD";
     }
 }
@@ -134,7 +129,7 @@ class Libro {
     }
 }
 
-$libroFavorito = new Libro("Cien Años de Soledad", "Gabriel García Márquez");
+$libroFavorito = new Libro("Cien Años de Soledad", "G. García Márquez");
 echo $libroFavorito->obtenerFicha();
 ?&gt;</code></pre>
             <h4>Salida del Código:</h4>
@@ -150,7 +145,7 @@ echo $libroFavorito->obtenerFicha();
                         return "'{$this->titulo}' por {$this->autor}";
                     }
                 }
-                $libroFavorito = new Libro_Demo("Cien Años de Soledad", "Gabriel García Márquez");
+                $libroFavorito = new Libro_Demo("Cien Años de Soledad", "G. García Márquez");
                 echo $libroFavorito->obtenerFicha();
             ?></pre>
         </section>
@@ -162,12 +157,9 @@ echo $libroFavorito->obtenerFicha();
             <pre><code class="language-php">&lt;?php
 class CuentaBancaria {
     public $saldo = 0;
-
     public function depositar($monto) {
-        // $this->saldo se refiere al saldo de ESTE objeto
         $this->saldo += $monto;
     }
-
     public function getSaldo() {
         return $this->saldo;
     }
@@ -179,27 +171,22 @@ $miCuenta->depositar(100);
 $tuCuenta = new CuentaBancaria();
 $tuCuenta->depositar(50);
 
-echo "Saldo de miCuenta: " . $miCuenta->getSaldo();
-echo "\nSaldo de tuCuenta: " . $tuCuenta->getSaldo();
+echo "Saldo de miCuenta: " . $miCuenta->getSaldo() . "\n";
+echo "Saldo de tuCuenta: " . $tuCuenta->getSaldo();
 ?&gt;</code></pre>
             <h4>Salida del Código:</h4>
             <pre><?php
                 class CuentaBancaria_Demo {
                     public $saldo = 0;
-                    public function depositar($monto) {
-                        $this->saldo += $monto;
-                    }
-                    public function getSaldo() {
-                        return $this->saldo;
-                    }
+                    public function depositar($monto) { $this->saldo += $monto; }
+                    public function getSaldo() { return $this->saldo; }
                 }
-                $miCuenta = new CuentaBancaria_Demo();
-                $miCuenta->depositar(100);
-                $tuCuenta = new CuentaBancaria_Demo();
-                $tuCuenta->depositar(50);
-                echo "Saldo de miCuenta: " . $miCuenta->getSaldo();
-                echo "\nSaldo de tuCuenta: " . $tuCuenta->getSaldo();
-                echo "\n(Nota cómo cada objeto mantiene su propio saldo gracias a \$this)";
+                $miCuenta_this = new CuentaBancaria_Demo();
+                $miCuenta_this->depositar(100);
+                $tuCuenta_this = new CuentaBancaria_Demo();
+                $tuCuenta_this->depositar(50);
+                echo "Saldo de miCuenta: " . $miCuenta_this->getSaldo() . "\n";
+                echo "Saldo de tuCuenta: " . $tuCuenta_this->getSaldo();
             ?></pre>
         </section>
 
@@ -211,7 +198,7 @@ echo "\nSaldo de tuCuenta: " . $tuCuenta->getSaldo();
 class Pelicula {
     public $titulo;
     public $director;
-    private $alquilada = false; // private: solo accesible desde dentro
+    private $alquilada = false;
 
     public function __construct($titulo, $director) {
         $this->titulo = $titulo;
@@ -235,12 +222,9 @@ echo "Disponible después: " . ($pelicula->estaDisponible() ? 'Sí' : 'No') . "\
             <h4>Salida del Código:</h4>
             <pre><?php
                 class Pelicula_Demo {
-                    public $titulo;
-                    public $director;
-                    private $alquilada = false;
+                    public $titulo; public $director; private $alquilada = false;
                     public function __construct($titulo, $director) {
-                        $this->titulo = $titulo;
-                        $this->director = $director;
+                        $this->titulo = $titulo; $this->director = $director;
                     }
                     public function alquilar() { $this->alquilada = true; }
                     public function estaDisponible() { return !$this->alquilada; }
@@ -251,11 +235,11 @@ echo "Disponible después: " . ($pelicula->estaDisponible() ? 'Sí' : 'No') . "\
                 echo "Disponible después: " . ($pelicula->estaDisponible() ? 'Sí' : 'No') . "\n";
             ?></pre>
         </section>
-
-        <?php include '../templates/_paginacion.php'; ?>
     </div>
+    
+    <?php include '../templates/_paginacion.php'; ?>
+</main>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
-</body>
-</html>
+<?php
+    include '../templates/_footer.php';
+?>

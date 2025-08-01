@@ -1,17 +1,10 @@
-<!DOCTYPE html>
-<html lang="es">
+<?php 
+    $page_title = "10. Guía de Principios de la POO";
+    include '../templates/_header.php';
+    include '../templates/_sidebar.php';
+?>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Principios de la POO en PHP</title>
-    
-    <link rel="stylesheet" href="../assets/css/estilos.css">
-    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css">
-</head>
-
-<body>
+<main class="content">
     <div class="container">
         <h1>Principios de la POO en PHP</h1>
         <p style="text-align: center;">Una guía sobre Encapsulación, Herencia, Polimorfismo y Abstracción.</p>
@@ -35,7 +28,11 @@ class CuentaBancaria {
     private $saldo; // Privado: solo accesible desde esta clase
 
     public function __construct($saldoInicial) {
-        $this->saldo = $saldoInicial;
+        if ($saldoInicial >= 0) {
+            $this->saldo = $saldoInicial;
+        } else {
+            $this->saldo = 0;
+        }
     }
 
     public function depositar($monto) {
@@ -54,13 +51,13 @@ echo "El saldo final es: " . $miCuenta->getSaldo();
 ?&gt;</code></pre>
             <h4>Salida del Código:</h4>
             <pre><?php
-                class CuentaBancaria_Encapsulacion_Demo {
+                class CuentaBancaria_P_Demo {
                     private $saldo;
-                    public function __construct($saldoInicial) { $this->saldo = $saldoInicial; }
+                    public function __construct($saldoInicial) { if ($saldoInicial >= 0) { $this->saldo = $saldoInicial; } else { $this->saldo = 0; } }
                     public function depositar($monto) { $this->saldo += $monto; }
                     public function getSaldo() { return $this->saldo; }
                 }
-                $miCuenta = new CuentaBancaria_Encapsulacion_Demo(100);
+                $miCuenta = new CuentaBancaria_P_Demo(100);
                 $miCuenta->depositar(50);
                 echo "El saldo final es: " . $miCuenta->getSaldo() . "\n";
                 echo "// No podemos acceder a \$miCuenta->saldo directamente.";
@@ -90,36 +87,30 @@ class Coche extends Vehiculo {
         parent::__construct($marca); // Llama al constructor del padre
         $this->modelo = $modelo;
     }
-    public function tocarBocina() {
-        return "¡Beep, beep!";
-    }
 }
 
 $miCoche = new Coche("Toyota", "Corolla");
-echo $miCoche->getInfo() . ", Modelo: " . $miCoche->modelo . "\n"; // Usa método del padre
-echo $miCoche->tocarBocina(); // Usa método propio
+echo $miCoche->getInfo() . ", Modelo: " . $miCoche->modelo . "\n";
 ?&gt;</code></pre>
             <h4>Salida del Código:</h4>
             <pre><?php
-                class Vehiculo_Herencia_Demo {
+                class Vehiculo_P_Demo {
                     public $marca;
                     public function __construct($marca) { $this->marca = $marca; }
                     public function getInfo() { return "Marca: " . $this->marca; }
                 }
-                class Coche_Herencia_Demo extends Vehiculo_Herencia_Demo {
+                class Coche_P_Demo extends Vehiculo_P_Demo {
                     public $modelo;
                     public function __construct($marca, $modelo) { parent::__construct($marca); $this->modelo = $modelo; }
-                    public function tocarBocina() { return "¡Beep, beep!"; }
                 }
-                $miCoche = new Coche_Herencia_Demo("Toyota", "Corolla");
+                $miCoche = new Coche_P_Demo("Toyota", "Corolla");
                 echo $miCoche->getInfo() . ", Modelo: " . $miCoche->modelo . "\n";
-                echo $miCoche->tocarBocina();
             ?></pre>
         </section>
         
         <section id="polimorfismo" class="section">
             <h2>3. Polimorfismo</h2>
-            <p>Significa "muchas formas". Permite que objetos de diferentes clases respondan al mismo método de manera diferente.</p>
+            <p>Permite que objetos de diferentes clases respondan al mismo método de manera diferente, usualmente sobrescribiendo un método heredado.</p>
             <h4>Código de Definición:</h4>
             <pre><code class="language-php">&lt;?php
 class Animal {
@@ -170,12 +161,9 @@ escucharAnimal(new Gato());
 class Cafetera {
     private $tieneAgua = false;
     private $tieneCafe = false;
+    public function agregarAgua() { $this->tieneAgua = true; }
+    public function agregarCafe() { $this->tieneCafe = true; }
 
-    public function agregarAgua() { /* ... */ }
-    public function agregarCafe() { /* ... */ }
-
-    // Este es el método público que el usuario usa.
-    // Oculta la complejidad de calentar, colar, etc.
     public function prepararCafe() {
         if ($this->tieneAgua && $this->tieneCafe) {
             $this->calentarAgua();
@@ -184,45 +172,41 @@ class Cafetera {
         }
         return "Error: Falta agua o café.";
     }
-
     private function calentarAgua() { /* ... Lógica interna ... */ }
     private function colarCafe() { /* ... Lógica interna ... */ }
 }
 
 $miCafetera = new Cafetera();
-// El usuario no necesita saber sobre calentar o colar.
-// $miCafetera->agregarAgua();
-// $miCafetera->agregarCafe();
-// echo $miCafetera->prepararCafe();
+$miCafetera->agregarAgua();
+$miCafetera->agregarCafe();
+echo $miCafetera->prepararCafe();
 ?&gt;</code></pre>
             <h4>Salida del Código:</h4>
             <pre><?php
                 class Cafetera_Abs_Demo {
                     private $tieneAgua = false; private $tieneCafe = false;
-                    public function agregarAgua() { $this->tieneAgua = true; echo "Agua añadida.\n"; }
-                    public function agregarCafe() { $this->tieneCafe = true; echo "Café añadido.\n"; }
+                    public function agregarAgua() { $this->tieneAgua = true; }
+                    public function agregarCafe() { $this->tieneCafe = true; }
                     public function prepararCafe() {
-                        echo "Iniciando preparación...\n";
                         if ($this->tieneAgua && $this->tieneCafe) {
-                            $this->calentarAgua(); $this->colarCafe(); return "¡Café listo!\n";
+                            $this->calentarAgua(); $this->colarCafe(); return "¡Café listo!";
                         }
-                        return "Error: Falta agua o café.\n";
+                        return "Error: Falta agua o café.";
                     }
-                    private function calentarAgua() { echo "...Calentando agua...\n"; }
-                    private function colarCafe() { echo "...Colando el café...\n"; }
+                    private function calentarAgua() {}
+                    private function colarCafe() {}
                 }
                 $miCafetera = new Cafetera_Abs_Demo();
                 $miCafetera->agregarAgua();
                 $miCafetera->agregarCafe();
                 echo $miCafetera->prepararCafe();
-                echo "\n// El usuario solo llamó a prepararCafe(), la complejidad interna está abstraída.";
             ?></pre>
         </section>
-
-        <?php include '../templates/_paginacion.php'; ?>
     </div>
+    
+    <?php include '../templates/_paginacion.php'; ?>
+</main>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
-</body>
-</html>
+<?php
+    include '../templates/_footer.php';
+?>

@@ -1,17 +1,10 @@
-<!DOCTYPE html>
-<html lang="es">
+<?php 
+    $page_title = "9. Guía de Errores y Excepciones";
+    include '../templates/_header.php';
+    include '../templates/_sidebar.php';
+?>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manejo de Errores y Excepciones en PHP</title>
-    
-    <link rel="stylesheet" href="../assets/css/estilos.css">
-    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css">
-</head>
-
-<body>
+<main class="content">
     <div class="container">
         <h1>Manejo de Errores y Excepciones en PHP</h1>
 
@@ -47,12 +40,12 @@ try {
 ?&gt;</code></pre>
             <h4>Salida del Código:</h4>
             <pre><?php
-                function dividir_demo_1($dividendo, $divisor) {
+                function dividir_e_demo($dividendo, $divisor) {
                     if ($divisor == 0) { throw new Exception("¡No se puede dividir por cero!"); }
                     return $dividendo / $divisor;
                 }
                 try {
-                    $resultado = dividir_demo_1(10, 0);
+                    $resultado = dividir_e_demo(10, 0);
                 } catch (Exception $e) {
                     echo "Se ha producido una excepción: " . $e->getMessage();
                 }
@@ -61,7 +54,7 @@ try {
 
         <section id="finally" class="section">
             <h2>El Bloque `finally`</h2>
-            <p>El bloque <code>finally</code> contiene código que se ejecutará <strong>siempre</strong> al final, sin importar si hubo una excepción o no. Es ideal para tareas de "limpieza".</p>
+            <p>El bloque <code>finally</code> contiene código que se ejecutará <strong>siempre</strong> al final, sin importar si hubo una excepción o no.</p>
             <h4>Código de Definición:</h4>
             <pre><code class="language-php">&lt;?php
 try {
@@ -104,12 +97,12 @@ try {
 ?&gt;</code></pre>
             <h4>Salida del Código:</h4>
             <pre><?php
-                function validarEdadParaLicencia_demo($edad) {
+                function validarEdadParaLicencia_e_demo($edad) {
                     if ($edad < 18) { throw new Exception("El solicitante es menor de edad."); }
                     return true;
                 }
                 try {
-                    validarEdadParaLicencia_demo(17);
+                    validarEdadParaLicencia_e_demo(17);
                 } catch (Exception $e) {
                     echo "No se pudo validar la edad: " . $e->getMessage();
                 }
@@ -138,14 +131,14 @@ try {
 ?&gt;</code></pre>
             <h4>Salida del Código:</h4>
             <pre><?php
-                class ErrorDeConexionDB_demo extends Exception {}
-                function conectarDB_demo($host) {
-                    if ($host !== 'localhost') { throw new ErrorDeConexionDB_demo("No se pudo conectar al host: " . $host); }
+                class ErrorDeConexionDB_e_demo extends Exception {}
+                function conectarDB_e_demo($host) {
+                    if ($host !== 'localhost') { throw new ErrorDeConexionDB_e_demo("No se pudo conectar al host: " . $host); }
                     return true;
                 }
                 try {
-                    conectarDB_demo("servidor-remoto");
-                } catch (ErrorDeConexionDB_demo $e) {
+                    conectarDB_e_demo("servidor-remoto");
+                } catch (ErrorDeConexionDB_e_demo $e) {
                     echo "Error de DB específico: " . $e->getMessage();
                 }
             ?></pre>
@@ -153,25 +146,23 @@ try {
 
         <section id="global-handler" class="section">
             <h2>Manejador Global de Excepciones</h2>
-            <p>Es una función "red de seguridad" para capturar cualquier excepción no atrapada en un bloque `try...catch`.</p>
+            <p>Es una función "red de seguridad" para capturar cualquier excepción no atrapada en un bloque <code>try...catch</code>.</p>
             <h4>Código de Definición:</h4>
             <pre><code class="language-php">&lt;?php
 function manejadorGlobalDeExcepciones($exception) {
     echo "&lt;h2&gt;¡Ups! Algo salió mal.&lt;/h2&gt;";
-    // Aquí se registraría el error en un log para el desarrollador.
 }
-
 set_exception_handler('manejadorGlobalDeExcepciones');
 
 throw new Exception("Error fatal que nadie esperaba.");
 ?&gt;</code></pre>
             <h4>Salida del Código:</h4>
             <pre><?php
-                function manejadorGlobalDeExcepciones_demo($exception) {
+                function manejadorGlobalDeExcepciones_e_demo($exception) {
                     echo "<h2>¡Ups! Algo salió mal.</h2>";
                 }
                 // Para la demo, lo llamamos manualmente para no detener el script.
-                manejadorGlobalDeExcepciones_demo(new Exception("Error fatal que nadie esperaba."));
+                manejadorGlobalDeExcepciones_e_demo(new Exception("Error fatal que nadie esperaba."));
             ?></pre>
         </section>
 
@@ -181,37 +172,33 @@ throw new Exception("Error fatal que nadie esperaba.");
             <h4>Código de Definición:</h4>
             <pre><code class="language-php">&lt;?php
 try {
-    // Simulamos un fallo
     throw new Exception("Fallo en la conexión con la API externa.");
 } catch (Exception $e) {
-    // 1. Mensaje genérico para el usuario
-    echo "Lo sentimos, el servicio no está disponible en este momento.";
-
-    // 2. Mensaje detallado para el log
+    echo "Lo sentimos, el servicio no está disponible.";
     $fecha = date("Y-m-d H:i:s");
     $mensajeError = "[$fecha] " . $e->getMessage();
-
-    // 3. Guardamos en un archivo de log.
     error_log($mensajeError . "\n", 3, "errores_aplicacion.log");
 }
 ?&gt;</code></pre>
             <h4>Salida del Código:</h4>
-            <pre><?php
+            <div class="output-container">
+                <?php
                 try {
                     throw new Exception("Fallo en la conexión con la API externa.");
                 } catch (Exception $e) {
-                    echo "Lo sentimos, el servicio no está disponible en este momento.";
+                    echo "Lo sentimos, el servicio no está disponible.";
                     $fecha = date("Y-m-d H:i:s");
                     $mensajeError = "[$fecha] " . $e->getMessage();
                     echo "\n\n<div class='log-output'><strong>Contenido que se guardaría en 'errores_aplicacion.log':</strong><br>" . htmlentities($mensajeError) . "</div>";
                 }
-            ?></pre>
+                ?>
+            </div>
         </section>
-
-        <?php include '../templates/_paginacion.php'; ?>
     </div>
+    
+    <?php include '../templates/_paginacion.php'; ?>
+</main>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
-</body>
-</html>
+<?php
+    include '../templates/_footer.php';
+?>

@@ -1,17 +1,10 @@
-<!DOCTYPE html>
-<html lang="es">
+<?php 
+    $page_title = "11. Guía Avanzada de POO";
+    include '../templates/_header.php';
+    include '../templates/_sidebar.php';
+?>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Guía Avanzada de POO en PHP</title>
-    
-    <link rel="stylesheet" href="../assets/css/estilos.css">
-    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css">
-</head>
-
-<body>
+<main class="content">
     <div class="container">
         <h1>Guía Avanzada de POO en PHP</h1>
         <p style="text-align: center;">Namespaces, Clases Abstractas, Interfaces y Traits.</p>
@@ -34,29 +27,25 @@
             <pre><code class="language-php">&lt;?php
 // --- Archivo: Tienda/Producto.php ---
 namespace Tienda;
-class Producto { /* ... */ }
+class Producto { public $nombre = "Producto de Tienda"; }
 
 // --- Archivo: Blog/Articulo.php ---
 namespace Blog;
-class Articulo { /* ... */ }
+class Articulo { public $titulo = "Artículo de Blog"; }
 
 // --- Archivo: index.php ---
-// require 'Tienda/Producto.php';
-// require 'Blog/Articulo.php';
-
 use Tienda\Producto;
 use Blog\Articulo as Post; // Usando un alias
 
 $productoTienda = new Producto();
 $articuloBlog = new Post();
 ?&gt;</code></pre>
-            <h4>Salida del Código (simulado en un solo bloque):</h4>
+            <h4>Salida del Código (simulado):</h4>
             <pre><?php
-                class Producto_Tienda_Demo { public function __construct() { echo "Objeto Producto de Tienda creado.\n"; } }
-                class Articulo_Blog_Demo { public function __construct() { echo "Objeto Articulo de Blog creado.\n"; } }
-                $productoTienda = new Producto_Tienda_Demo();
-                $articuloBlog = new Articulo_Blog_Demo();
-                echo "// En un proyecto real, 'use' nos permitiría crear los objetos sin el sufijo '_Demo'.";
+                class Producto_NS_Demo { public function __construct() { echo "Objeto Producto de Tienda creado.\n"; } }
+                class Articulo_NS_Demo { public function __construct() { echo "Objeto Articulo de Blog creado.\n"; } }
+                $productoTienda = new Producto_NS_Demo();
+                $articuloBlog = new Articulo_NS_Demo();
             ?></pre>
         </section>
 
@@ -66,7 +55,6 @@ $articuloBlog = new Post();
             <h4>Código de Definición:</h4>
             <pre><code class="language-php">&lt;?php
 abstract class ProcesadorDePago {
-    // Método abstracto: obliga a las clases hijas a implementarlo
     abstract public function procesar($monto);
 }
 
@@ -75,18 +63,19 @@ class PagoConTarjeta extends ProcesadorDePago {
         echo "Procesando \$" . $monto . " con Tarjeta de Crédito.\n";
     }
 }
+
 $pago = new PagoConTarjeta();
 $pago->procesar(100);
 ?&gt;</code></pre>
             <h4>Salida del Código:</h4>
             <pre><?php
-                abstract class ProcesadorDePago_Demo {
+                abstract class ProcesadorDePago_A_Demo {
                     abstract public function procesar($monto);
                 }
-                class PagoConTarjeta_Demo extends ProcesadorDePago_Demo {
+                class PagoConTarjeta_A_Demo extends ProcesadorDePago_A_Demo {
                     public function procesar($monto) { echo "Procesando \$" . $monto . " con Tarjeta de Crédito.\n"; }
                 }
-                $pago = new PagoConTarjeta_Demo();
+                $pago = new PagoConTarjeta_A_Demo();
                 $pago->procesar(100);
             ?></pre>
         </section>
@@ -105,16 +94,17 @@ class InformeDeVentas implements Exportable {
         return "datos,de,ventas,en,csv\n";
     }
 }
+
 $informe = new InformeDeVentas();
 echo $informe->exportarCsv();
 ?&gt;</code></pre>
             <h4>Salida del Código:</h4>
             <pre><?php
-                interface Exportable_Demo { public function exportarCsv(); }
-                class InformeDeVentas_Demo implements Exportable_Demo {
+                interface Exportable_I_Demo { public function exportarCsv(); }
+                class InformeDeVentas_I_Demo implements Exportable_I_Demo {
                     public function exportarCsv() { return "datos,de,ventas,en,csv\n"; }
                 }
-                $informe = new InformeDeVentas_Demo();
+                $informe = new InformeDeVentas_I_Demo();
                 echo htmlentities($informe->exportarCsv());
             ?></pre>
         </section>
@@ -143,22 +133,22 @@ $articulo->guardar();
 ?&gt;</code></pre>
             <h4>Salida del Código:</h4>
             <pre><?php
-                trait Logger_Demo {
+                trait Logger_T_Demo {
                     public function registrar($mensaje) { echo "[LOG]: " . $mensaje . "\n"; }
                 }
-                class Articulo_Demo {
-                    use Logger_Demo;
+                class Articulo_T_Demo {
+                    use Logger_T_Demo;
                     public function guardar() { $this->registrar("El artículo ha sido guardado."); }
                 }
-                $articulo = new Articulo_Demo();
+                $articulo = new Articulo_T_Demo();
                 $articulo->guardar();
             ?></pre>
         </section>
-
-        <?php include '../templates/_paginacion.php'; ?>
     </div>
+    
+    <?php include '../templates/_paginacion.php'; ?>
+</main>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
-</body>
-</html>
+<?php
+    include '../templates/_footer.php';
+?>
