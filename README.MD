@@ -51,7 +51,7 @@ Para ejecutar esta guía en tu propio equipo, necesitas un entorno de servidor l
 ## Autor
 
 * **OSMAR GIMÉNEZ**
-* **LinkedIn:** [ENLACE A TU PERFIL DE LINKEDIN AQUÍ]
+* **LinkedIn:** [www.linkedin.com/in/osmar-gimenez-5971b0187]
 
 ## Licencia
 
