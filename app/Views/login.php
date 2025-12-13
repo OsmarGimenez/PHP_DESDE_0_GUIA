@@ -8,8 +8,8 @@
             </div>
         <?php endif; ?>
 
-        <form action="auth.php" method="POST" id="auth-form">
-            <!-- Campo Nombre (Oculto por defecto, solo para Registro) -->
+        <form action="index.php?p=auth" method="POST" id="auth-form">
+            
             <div class="form-group" id="group-nombre" style="display: none;">
                 <label class="form-label">Nombre Completo</label>
                 <input type="text" name="nombre" id="input-nombre" class="form-input" placeholder="Tu Nombre">
@@ -25,7 +25,6 @@
                 <input type="password" name="password" class="form-input" required placeholder="••••••••">
             </div>
 
-            <!-- Botón Principal (Cambia de texto dinámicamente) -->
             <button type="submit" name="accion" value="login" class="btn-primary" id="btn-submit">
                 Ingresar
             </button>
@@ -33,7 +32,6 @@
             <div style="text-align: center; margin: 15px 0; border-top: 1px solid var(--color-border); padding-top: 15px;">
                 <span id="toggle-text" style="color: var(--color-text); font-size: 0.9em;">¿No tienes cuenta?</span>
                 
-                <!-- Enlace Toggle (Interruptor) -->
                 <a href="#" id="toggle-btn" style="color: var(--color-primary); font-weight: bold; text-decoration: none; margin-left: 5px;">
                     Regístrate gratis
                 </a>
@@ -53,8 +51,8 @@
     let isLoginMode = true;
 
     toggleBtn.addEventListener('click', (e) => {
-        e.preventDefault(); // Evita que el enlace recargue la página
-        isLoginMode = !isLoginMode; // Invierte el modo
+        e.preventDefault(); 
+        isLoginMode = !isLoginMode; 
 
         if (isLoginMode) {
             // Modo LOGIN
@@ -62,7 +60,7 @@
             btnSubmit.textContent = "Ingresar";
             btnSubmit.value = "login";
             groupNombre.style.display = "none";
-            inputNombre.required = false; // El nombre no es obligatorio en login
+            inputNombre.required = false; 
             toggleText.textContent = "¿No tienes cuenta?";
             toggleBtn.textContent = "Regístrate gratis";
         } else {
@@ -71,7 +69,7 @@
             btnSubmit.textContent = "Registrarme";
             btnSubmit.value = "registro";
             groupNombre.style.display = "block";
-            inputNombre.required = true; // El nombre es obligatorio en registro
+            inputNombre.required = true; 
             toggleText.textContent = "¿Ya tienes cuenta?";
             toggleBtn.textContent = "Inicia Sesión";
         }

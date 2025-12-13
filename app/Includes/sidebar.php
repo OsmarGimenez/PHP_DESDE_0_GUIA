@@ -1,14 +1,7 @@
 <?php
-require_once 'includes/db.php';
-
-try {
-    $sql = "SELECT titulo, slug, es_premium FROM temas ORDER BY orden ASC";
-    $stmt = $pdo->query($sql);
-    $temas = $stmt->fetchAll();
-} catch (PDOException $e) {
-    $temas = [];
-    error_log("Error cargando menú: " . $e->getMessage());
-}
+// includes/sidebar.php
+// Este archivo ahora es una VISTA pura. 
+// Depende de la variable $datosTemas que viene del index.php
 
 $paginaActual = $_GET['p'] ?? 'inicio';
 ?>
@@ -20,7 +13,6 @@ $paginaActual = $_GET['p'] ?? 'inicio';
         <button id="theme-toggle-btn">Cambiar Tema</button>
     </div>
 
-    <!-- BUSCADOR CON CLASE -->
     <div style="padding: 0 20px 20px 20px;">
         <form action="buscar" method="get">
             <input type="text" name="q" class="search-box" placeholder="Buscar..." required>
@@ -29,13 +21,14 @@ $paginaActual = $_GET['p'] ?? 'inicio';
 
     <nav>
         <ul class="sidebar-nav">
-            <?php if (empty($temas)): ?>
-                <li><p style="padding:10px; color:#f88;">Error cargando temas.</p></li>
+            <?php if (empty($datosTemas)): ?>
+                <li><p style="padding:10px; color:#f88;">No hay temas disponibles.</p></li>
             <?php else: ?>
-                <?php foreach ($temas as $tema): ?>
+                <?php foreach ($datosTemas as $tema): ?>
                     <li class="<?php echo ($paginaActual == $tema['slug']) ? 'active' : ''; ?>">
                         <a href="<?php echo $tema['slug']; ?>" style="display: flex; justify-content: space-between; align-items: center;">
                             <span><?php echo htmlspecialchars($tema['titulo']); ?></span>
+                            
                             <?php if ($tema['es_premium']): ?>
                                 <span title="Contenido Premium" style="font-size:0.8em;">💎</span>
                             <?php endif; ?>

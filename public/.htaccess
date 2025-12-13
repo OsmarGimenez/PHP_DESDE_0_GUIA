@@ -1,0 +1,12 @@
+Options +FollowSymLinks
+RewriteEngine On
+
+# IMPORTANTE: Ahora la base es la carpeta public
+RewriteBase /PHP_DESDE_0_GUIA/public/
+
+# 1. Si el archivo existe físicamente en 'public' (ej: css, js, imágenes), sírvelo.
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# 2. Todo lo demás se envía a index.php dentro de esta misma carpeta
+RewriteRule ^(.*)$ index.php?p=$1 [L,QSA]

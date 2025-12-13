@@ -1,12 +1,21 @@
 <?php
-session_start();
-require_once 'includes/db.php';
+// app/Controllers/auth.php
+
+// Verificamos si la sesión ya está iniciada (porque index.php ya lo hace)
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+// CORRECCIÓN DE RUTA: 
+// Usamos __DIR__ para decir "Desde este directorio (Controllers), baja uno y entra a Includes"
+require_once __DIR__ . '/../Includes/db.php';
 
 $accion = $_POST['accion'] ?? '';
 $email = trim($_POST['email'] ?? '');
 $password = $_POST['password'] ?? '';
-$nombre = trim($_POST['nombre'] ?? ''); // Capturamos el nombre
+$nombre = trim($_POST['nombre'] ?? ''); 
 
+// Validación básica
 if (!$email || !$password) {
     header("Location: index.php?p=login&error=Faltan datos obligatorios");
     exit;
@@ -40,11 +49,13 @@ if ($accion === 'registro') {
         header("Location: index.php?p=inicio");
 
     } catch (PDOException $e) {
+        // En producción, registra el error real en un log y muestra algo genérico
+        error_log($e->getMessage()); 
         header("Location: index.php?p=login&error=Error al registrar usuario");
     }
 
 } elseif ($accion === 'login') {
-    // Lógica de Login (Igual que antes)
+    // Lógica de Login
     $stmt = $pdo->prepare("SELECT id, nombre, password FROM usuarios WHERE email = ?");
     $stmt->execute([$email]);
     $user = $stmt->fetch();
@@ -56,5 +67,8 @@ if ($accion === 'registro') {
     } else {
         header("Location: index.php?p=login&error=Credenciales incorrectas");
     }
+} else {
+    // Si llegan aquí sin acción válida, devolver al login
+    header("Location: index.php?p=login");
 }
 ?>
