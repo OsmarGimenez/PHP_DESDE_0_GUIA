@@ -13,7 +13,7 @@ require_once __DIR__ . '/../Includes/db.php';
 $accion = $_POST['accion'] ?? '';
 $email = trim($_POST['email'] ?? '');
 $password = $_POST['password'] ?? '';
-$nombre = trim($_POST['nombre'] ?? ''); 
+$nombre = trim($_POST['nombre'] ?? '');
 
 // Validación básica
 if (!$email || !$password) {
@@ -45,24 +45,24 @@ if ($accion === 'registro') {
         // 3. Auto-login inmediato
         $_SESSION['user_id'] = $pdo->lastInsertId();
         $_SESSION['user_name'] = $nombre;
-        
-        header("Location: index.php?p=inicio");
 
+        header("Location: index.php?p=inicio");
     } catch (PDOException $e) {
         // En producción, registra el error real en un log y muestra algo genérico
-        error_log($e->getMessage()); 
+        error_log($e->getMessage());
         header("Location: index.php?p=login&error=Error al registrar usuario");
     }
-
 } elseif ($accion === 'login') {
     // Lógica de Login
-    $stmt = $pdo->prepare("SELECT id, nombre, password FROM usuarios WHERE email = ?");
+    $stmt = $pdo->prepare("SELECT id, nombre, password, rol FROM usuarios WHERE email = ?");
     $stmt->execute([$email]);
     $user = $stmt->fetch();
 
     if ($user && password_verify($password, $user['password'])) {
         $_SESSION['user_id'] = $user['id'];
         $_SESSION['user_name'] = $user['nombre'];
+        $_SESSION['user_rol'] = $user['rol']; // <--- NUEVO: Guardamos el rol
+
         header("Location: index.php?p=inicio");
     } else {
         header("Location: index.php?p=login&error=Credenciales incorrectas");
@@ -71,4 +71,3 @@ if ($accion === 'registro') {
     // Si llegan aquí sin acción válida, devolver al login
     header("Location: index.php?p=login");
 }
-?>

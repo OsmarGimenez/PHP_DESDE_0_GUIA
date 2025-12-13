@@ -38,7 +38,7 @@
             </div>
         <?php else: ?>
             <!-- Botones para Visitantes -->
-            <a href="index.php?p=login" class="btn-header-outline">Registrarse</a>
+            <a href="index.php?p=login&mode=registro" class="btn-header-outline">Registrarse</a>
             <a href="index.php?p=login" class="btn-header-solid">
                 <i class="fas fa-sign-in-alt"></i> Ingresar
             </a>

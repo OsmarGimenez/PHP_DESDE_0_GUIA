@@ -48,12 +48,13 @@
     const inputNombre = document.getElementById('input-nombre');
     const toggleText = document.getElementById('toggle-text');
     
-    let isLoginMode = true;
+    // DETECCIÓN AUTOMÁTICA: Leemos si PHP nos mandó el modo registro desde la URL
+    // Si en la URL hay 'mode=registro', iniciamos en false (isLoginMode = false)
+    const urlParams = new URLSearchParams(window.location.search);
+    let isLoginMode = urlParams.get('mode') !== 'registro';
 
-    toggleBtn.addEventListener('click', (e) => {
-        e.preventDefault(); 
-        isLoginMode = !isLoginMode; 
-
+    // Función para actualizar la Interfaz (UI)
+    function updateUI() {
         if (isLoginMode) {
             // Modo LOGIN
             formTitle.textContent = "Iniciar Sesión";
@@ -73,5 +74,15 @@
             toggleText.textContent = "¿Ya tienes cuenta?";
             toggleBtn.textContent = "Inicia Sesión";
         }
+    }
+
+    // 1. Ejecutar al cargar la página (para respetar el botón del header)
+    updateUI();
+
+    // 2. Ejecutar al hacer click en el enlace toggle
+    toggleBtn.addEventListener('click', (e) => {
+        e.preventDefault(); 
+        isLoginMode = !isLoginMode; // Invertir estado
+        updateUI(); // Refrescar vista
     });
 </script>
