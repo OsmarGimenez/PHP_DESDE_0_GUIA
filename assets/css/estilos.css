@@ -1,138 +1,101 @@
 /* =================================
    Variables de Diseño y Temas
    ================================= */
-:root { /* TEMA CLARO (POR DEFECTO) */
+   :root { /* TEMA CLARO */
     --color-background: #f4f7f9; --color-surface: #ffffff; --color-text: #333333; --color-heading: #111111;
     --color-primary: #007bff; --color-border: #e0e0e0; --color-sidebar-bg: #f8f9fa; --color-sidebar-active: var(--color-primary);
     --color-pre-bg: #f8f9fa; --color-nav-index-bg: #f8f9fa;
+    --color-input-bg: #ffffff; --color-input-text: #333333;
 }
 body.dark-mode { /* TEMA OSCURO */
     --color-background: #1e1e1e; --color-surface: #252526; --color-text: #cccccc; --color-heading: #ffffff;
     --color-primary: #0098ff; --color-border: #3a3a3a; --color-sidebar-bg: #2d2d2d; --color-sidebar-active: var(--color-primary);
     --color-pre-bg: #2d2d2d; --color-nav-index-bg: rgba(0, 0, 0, 0.2);
+    --color-input-bg: #3c3c3c; --color-input-text: #ffffff;
 }
 
 /* =================================
-   Estilos Generales y Reset
+   Estilos Generales
    ================================= */
-body { font-family: 'Fira Sans', sans-serif; line-height: 1.7; background-color: var(--color-background); color: var(--color-text); margin: 0; padding: 0; font-size: 18px; overflow: hidden; /* Evita el scroll en el body */ }
+body { font-family: 'Fira Sans', sans-serif; line-height: 1.7; background-color: var(--color-background); color: var(--color-text); margin: 0; padding: 0; font-size: 18px; overflow: hidden; }
 * { box-sizing: border-box; }
 
-/* === Layout Principal con Sidebar === */
+/* === Layout === */
 #sidebar-toggle-btn { position: fixed; top: 15px; left: 15px; z-index: 1001; background: var(--color-surface); color: var(--color-text); border: 1px solid var(--color-border); width: 40px; height: 40px; border-radius: 5px; cursor: pointer; font-size: 20px; transition: all 0.3s; }
-.main-wrapper { display: flex; height: 100vh; /* Ocupa toda la altura de la ventana */ }
-.sidebar { width: 280px; flex-shrink: 0; background-color: var(--color-sidebar-bg); height: 100%; overflow-y: auto; /* Permite scroll interno */ border-right: 1px solid var(--color-border); transition: all 0.3s; }
-.content { flex-grow: 1; height: 100%; overflow-y: auto; /* El contenido es el único con scroll principal */ padding: 30px 40px; }
+.main-wrapper { display: flex; height: 100vh; }
+.sidebar { width: 280px; flex-shrink: 0; background-color: var(--color-sidebar-bg); height: 100%; overflow-y: auto; border-right: 1px solid var(--color-border); transition: all 0.3s; }
+.content { flex-grow: 1; height: 100%; overflow-y: auto; padding: 30px 40px; }
 
-/* Lógica para ocultar/mostrar sidebar */
 body.sidebar-collapsed .sidebar { width: 0; padding-left: 0; padding-right: 0; border: none; }
 body.sidebar-collapsed #sidebar-toggle-btn { transform: translateX(0); }
+.sidebar { scrollbar-width: none; } .sidebar::-webkit-scrollbar { display: none; }
 
-/* Truco para ocultar la barra de scroll en el sidebar */
-.sidebar { scrollbar-width: none; /* Firefox */ }
-.sidebar::-webkit-scrollbar { display: none; /* Chrome, Safari, and Opera */ }
-
-/* === Componentes === */
+/* === Componentes Sidebar === */
 .sidebar-title { color: var(--color-heading); text-align: center; margin-top: 0; margin-bottom: 20px; padding: 20px 0; border-bottom: 1px solid var(--color-border); white-space: nowrap; }
 .theme-switcher { text-align: center; margin: 0 20px 20px 20px; }
 .theme-switcher button { width: 100%; background: transparent; border: 1px solid var(--color-border); color: var(--color-text); padding: 8px 12px; border-radius: 5px; cursor: pointer; white-space: nowrap; }
 .sidebar-nav ul { list-style: none; padding: 0 20px; margin: 0; }
-.sidebar-nav li a { display: block; color: var(--color-text); padding: 10px 15px; border-radius: 5px; margin-bottom: 5px; white-space: nowrap; text-decoration: none; }
+.sidebar-nav li { margin-bottom: 5px; }
+.sidebar-nav li a { display: flex; justify-content: space-between; align-items: center; color: var(--color-text); padding: 10px 15px; border-radius: 5px; white-space: nowrap; text-decoration: none; transition: background 0.2s; }
+.sidebar-nav li a:hover { background-color: rgba(0,0,0,0.05); }
 .sidebar-nav li.active a { background-color: var(--color-sidebar-active); color: #ffffff; font-weight: bold; }
+
+/* === Buscador Sidebar === */
+.search-box { width: 100%; padding: 10px; border-radius: 5px; border: 1px solid var(--color-border); background-color: var(--color-input-bg); color: var(--color-input-text); transition: border-color 0.3s; }
+.search-box:focus { outline: none; border-color: var(--color-primary); }
+
+/* === Contenido === */
 .container { padding: 30px; background-color: var(--color-surface); border-radius: 8px; border: 1px solid var(--color-border); }
 h1, h2 { color: var(--color-heading); }
 h1 { text-align: center; margin-bottom: 20px; font-size: 2.5em; border: none; }
 h2 { border-bottom: 1px solid var(--color-border); padding-bottom: 10px; margin-top: 40px; }
 pre { max-width: 100%; overflow-x: auto; border-radius: 5px; padding: 15px; font-family: 'Fira Code', monospace; font-size: 16px; background: var(--color-pre-bg); border: 1px solid var(--color-border); }
 .nav-index { background: var(--color-nav-index-bg); padding: 15px; border-radius: 5px; margin-bottom: 30px; border: 1px solid var(--color-border); }
-.nav-index h2 { margin-top: 0; border: none; font-size: 1.2em; }
 .nav-index ul { list-style-type: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 15px; }
 .nav-index a { text-decoration: none; color: var(--color-primary); font-weight: bold; }
 .pagination-nav { padding: 20px; margin-top: 40px; background-color: var(--color-surface); border: 1px solid var(--color-border); border-radius: 8px; display: flex; justify-content: space-between; align-items: center; }
-.pagination-nav a { font-weight: bold; padding: 10px 15px; border-radius: 5px; background-color: var(--color-primary); color: #fff; text-decoration: none; }
+.pagination-nav a { font-weight: bold; padding: 10px 15px; border-radius: 5px; background-color: var(--color-primary); color: #fff; text-decoration: none; transition: opacity 0.2s; }
+.pagination-nav a:hover { opacity: 0.9; }
 .pagination-nav .disabled { padding: 10px 15px; color: #6c757d; }
-.output-container {
-    background-color: var(--color-pre-bg); /* Fondo igual al de los bloques de código */
-    border: 1px solid var(--color-border);
-    padding: 15px;
-    border-radius: 5px;
-    margin-top: 10px;
-}
+.output-container { background-color: var(--color-pre-bg); border: 1px solid var(--color-border); padding: 15px; border-radius: 5px; margin-top: 10px; }
 
-/* Media Query para pantallas pequeñas */
+/* === Login / Registro === */
+.login-card { max-width: 400px; margin: 50px auto; padding: 30px; background-color: var(--color-surface); border-radius: 8px; border: 1px solid var(--color-border); box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+.login-title { text-align: center; margin-bottom: 20px; color: var(--color-heading); }
+.form-group { margin-bottom: 15px; }
+.form-label { display: block; margin-bottom: 5px; font-weight: bold; color: var(--color-text); }
+.form-input { width: 100%; padding: 10px; border-radius: 4px; border: 1px solid var(--color-border); background-color: var(--color-input-bg); color: var(--color-input-text); box-sizing: border-box; }
+.form-input:focus { outline: none; border-color: var(--color-primary); }
+.btn-primary { width: 100%; padding: 10px; background-color: var(--color-primary); color: #fff; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; font-weight: bold; margin-bottom: 10px; transition: opacity 0.2s; }
+.btn-primary:hover { opacity: 0.9; }
+.btn-secondary { width: 100%; padding: 10px; background-color: transparent; color: var(--color-primary); border: 1px solid var(--color-primary); border-radius: 4px; cursor: pointer; font-size: 16px; transition: background-color 0.2s; }
+.btn-secondary:hover { background-color: rgba(0, 122, 204, 0.1); }
+.alert-error { background-color: rgba(231, 76, 60, 0.2); color: #e74c3c; padding: 10px; border-radius: 4px; border: 1px solid #e74c3c; margin-bottom: 20px; text-align: center; }
+
+/* === Botones del Header === */
+.user-top-bar { position: fixed; top: 15px; right: 25px; z-index: 1002; display: flex; align-items: center; gap: 10px; }
+.btn-header-solid { background-color: var(--color-primary); color: white; padding: 8px 16px; border-radius: 20px; text-decoration: none; font-weight: bold; font-size: 14px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); transition: transform 0.2s, opacity 0.2s; }
+.btn-header-solid:hover { transform: translateY(-2px); opacity: 0.9; color: white; }
+.btn-header-outline { background-color: transparent; color: var(--color-text); padding: 6px 14px; border-radius: 20px; text-decoration: none; font-weight: bold; font-size: 14px; border: 1px solid var(--color-border); transition: background 0.2s; }
+.btn-header-outline:hover { background-color: var(--color-sidebar-bg); border-color: var(--color-primary); color: var(--color-primary); }
+
+/* === Dropdown Usuario === */
+.user-dropdown { position: relative; display: inline-block; }
+.user-btn { background-color: var(--color-surface); color: var(--color-text); border: 1px solid var(--color-border); padding: 8px 15px; border-radius: 20px; cursor: pointer; font-size: 14px; display: flex; align-items: center; gap: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); transition: all 0.3s; }
+.user-btn:hover { border-color: var(--color-primary); background-color: var(--color-sidebar-bg); }
+.dropdown-content { display: none; position: absolute; right: 0; top: 110%; background-color: var(--color-surface); min-width: 180px; box-shadow: 0 8px 16px rgba(0,0,0,0.3); border-radius: 8px; border: 1px solid var(--color-border); z-index: 1; overflow: hidden; animation: fadeIn 0.2s ease-in-out; }
+.user-dropdown:hover .dropdown-content { display: block; }
+.dropdown-content a { color: var(--color-text); padding: 12px 16px; text-decoration: none; display: block; font-size: 14px; transition: background 0.2s; }
+.dropdown-content a:hover { background-color: var(--color-sidebar-bg); }
+.logout-link { color: #e74c3c !important; }
+.logout-link:hover { background-color: rgba(231, 76, 60, 0.1) !important; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+
+/* === Media Queries === */
 @media (max-width: 768px) {
-    body:not(.sidebar-collapsed) #sidebar-toggle-btn {
-        transform: translateX(280px); /* Mueve el botón junto con el sidebar */
-    }
-    .sidebar {
-        position: fixed;
-        z-index: 1000;
-        transform: translateX(0);
-    }
-    body.sidebar-collapsed .sidebar {
-        transform: translateX(-100%);
-    }
-    .content {
-        padding: 20px;
-    }
-}
-/* Estilos para la página de bienvenida */
-.welcome-section {
-    margin-top: 40px;
-    padding: 20px;
-    background-color: rgba(0,0,0,0.1);
-    border-radius: 8px;
-}
-body.light-mode .welcome-section {
-    background-color: rgba(0,0,0,0.03);
-}
-.start-button {
-    display: block;
-    width: fit-content;
-    margin: 20px auto 0 auto;
-    padding: 12px 25px;
-    background-color: var(--color-primary);
-    color: #fff;
-    font-weight: bold;
-    text-align: center;
-    border-radius: 5px;
-    text-decoration: none;
-    transition: transform 0.2s;
-}
-.start-button:hover {
-    transform: scale(1.05);
-    color: #fff;
-    text-decoration: none;
-}
-
-
-/* =================================
-   Estilos para Tablas
-   ================================= */
-table {
-    width: 100%;
-    border-collapse: collapse; /* Une los bordes de las celdas */
-    margin-top: 25px;
-    margin-bottom: 15px;
-}
-
-th, td {
-    border: 1px solid var(--color-border); /* Crea la grilla */
-    padding: 12px 15px; /* Espaciado interno */
-    text-align: left;
-}
-
-th {
-    background-color: rgba(0, 0, 0, 0.1); /* Un fondo sutil para el encabezado */
-    font-weight: bold;
-    color: var(--color-heading);
-}
-
-/* Colores alternos para las filas para mejorar legibilidad */
-tbody tr:nth-child(even) {
-    background-color: rgba(255, 255, 255, 0.02);
-}
-
-body:not(.dark-mode) tbody tr:nth-child(even) {
-    background-color: #f9f9f9;
+    body:not(.sidebar-collapsed) #sidebar-toggle-btn { transform: translateX(280px); }
+    .sidebar { position: fixed; z-index: 1000; transform: translateX(0); }
+    body.sidebar-collapsed .sidebar { transform: translateX(-100%); }
+    .content { padding: 20px; }
+    .btn-header-outline { display: none; }
 }

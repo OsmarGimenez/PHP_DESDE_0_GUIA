@@ -24,7 +24,7 @@ La guía está dividida en 11 módulos secuenciales que cubren los siguientes te
 
 Este proyecto demuestra conocimientos tanto de backend (PHP) como de frontend, con un enfoque en las buenas prácticas y la experiencia de usuario:
 
-* **Arquitectura Limpia:** El código está organizado en una estructura de carpetas lógica (`assets`, `pages`, `templates`) que separa las responsabilidades.
+* **Arquitectura Limpia:** El código está organizado en una estructura de carpetas lógica (`assets`, `pages`, `views`) que separa las responsabilidades.
 * **Diseño Responsive:** La interfaz se adapta a cualquier tamaño de pantalla, desde móviles hasta escritorios, utilizando CSS Flexbox y Media Queries.
 * **Componentes Reutilizables:** Se utilizan plantillas para el `header`, `sidebar`, `footer` y `paginación`, siguiendo el principio DRY (Don't Repeat Yourself).
 * **Navegación con Sidebar Dinámico:** Un menú lateral persistente resalta el tema actual y se puede ocultar para maximizar el espacio de contenido.

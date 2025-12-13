@@ -1,0 +1,12 @@
+Options +FollowSymLinks
+RewriteEngine On
+
+# IMPORTANTE: Esta base debe coincidir con el nombre de tu carpeta en htdocs
+RewriteBase /PHP_DESDE_0_GUIA/
+
+# 1. Si el archivo solicitado existe (ej: css, js), sírvelo directamente
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# 2. Para todo lo demás, mándalo a index.php
+RewriteRule ^(.*)$ index.php?p=$1 [L,QSA]
