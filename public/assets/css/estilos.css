@@ -1,101 +1,454 @@
-/* =================================
-   Variables de Diseño y Temas
-   ================================= */
-   :root { /* TEMA CLARO */
-    --color-background: #f4f7f9; --color-surface: #ffffff; --color-text: #333333; --color-heading: #111111;
-    --color-primary: #007bff; --color-border: #e0e0e0; --color-sidebar-bg: #f8f9fa; --color-sidebar-active: var(--color-primary);
-    --color-pre-bg: #f8f9fa; --color-nav-index-bg: #f8f9fa;
-    --color-input-bg: #ffffff; --color-input-text: #333333;
-}
-body.dark-mode { /* TEMA OSCURO */
-    --color-background: #1e1e1e; --color-surface: #252526; --color-text: #cccccc; --color-heading: #ffffff;
-    --color-primary: #0098ff; --color-border: #3a3a3a; --color-sidebar-bg: #2d2d2d; --color-sidebar-active: var(--color-primary);
-    --color-pre-bg: #2d2d2d; --color-nav-index-bg: rgba(0, 0, 0, 0.2);
-    --color-input-bg: #3c3c3c; --color-input-text: #ffffff;
+/* =========================================================
+   1. VARIABLES DE DISEÑO (PALETA PHP 8.5)
+   ========================================================= */
+   :root {
+    /* --- TEMA CLARO (VIVO) --- */
+    /* Usamos un gris azulado muy suave en vez de blanco puro para dar profundidad */
+    --bg-body: #f5f7fa;
+    --bg-surface: rgba(255, 255, 255, 0.9);
+    --bg-glass: rgba(255, 255, 255, 0.7);
+    
+    --text-main: #1f2937;
+    --text-muted: #6b7280;
+    
+    /* COLORES DE MARCA PHP 8.5 (Lila/Púrpura) */
+    --primary: #7a86b8;
+    --primary-dark: #4f5b93;
+    --accent: #6c5ce7;
+    
+    --border-color: #e5e7eb;
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    
+    --nav-height: 64px;
+    --sidebar-width: 280px;
 }
 
-/* =================================
-   Estilos Generales
-   ================================= */
-body { font-family: 'Fira Sans', sans-serif; line-height: 1.7; background-color: var(--color-background); color: var(--color-text); margin: 0; padding: 0; font-size: 18px; overflow: hidden; }
+body.dark-mode {
+    /* --- TEMA OSCURO (AURORA) --- */
+    --bg-body: #0f1016;
+    --bg-surface: rgba(30, 30, 40, 0.8);
+    --bg-glass: rgba(20, 20, 30, 0.7);
+    
+    --text-main: #f3f4f6;
+    --text-muted: #9ca3af;
+    
+    /* Mismos tonos PHP pero ajustados para contraste */
+    --primary: #8f9acc;
+    --primary-dark: #7a86b8;
+    --accent: #818cf8;
+    
+    --border-color: rgba(255, 255, 255, 0.1);
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
+    --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+}
+
+/* =========================================================
+   2. RESET Y ESTRUCTURA GLOBAL (FIX FOOTER)
+   ========================================================= */
 * { box-sizing: border-box; }
 
-/* === Layout === */
-#sidebar-toggle-btn { position: fixed; top: 15px; left: 15px; z-index: 1001; background: var(--color-surface); color: var(--color-text); border: 1px solid var(--color-border); width: 40px; height: 40px; border-radius: 5px; cursor: pointer; font-size: 20px; transition: all 0.3s; }
-.main-wrapper { display: flex; height: 100vh; }
-.sidebar { width: 280px; flex-shrink: 0; background-color: var(--color-sidebar-bg); height: 100%; overflow-y: auto; border-right: 1px solid var(--color-border); transition: all 0.3s; }
-.content { flex-grow: 1; height: 100%; overflow-y: auto; padding: 30px 40px; }
+body {
+    font-family: 'Fira Sans', sans-serif;
+    background-color: var(--bg-body);
+    color: var(--text-main);
+    margin: 0;
+    padding: 0;
+    font-size: 16px;
+    line-height: 1.6;
+    
+    /* ESTRUCTURA FLEXBOX PARA STICKY FOOTER */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
 
-body.sidebar-collapsed .sidebar { width: 0; padding-left: 0; padding-right: 0; border: none; }
-body.sidebar-collapsed #sidebar-toggle-btn { transform: translateX(0); }
-.sidebar { scrollbar-width: none; } .sidebar::-webkit-scrollbar { display: none; }
+/* DEGRADADO DE FONDO (FONDO VIVO) */
+/* Esto crea las "luces" sutiles en el fondo tanto en claro como oscuro */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    z-index: -1;
+    pointer-events: none;
+    background: 
+        radial-gradient(circle at 15% 50%, rgba(122, 134, 184, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 85% 30%, rgba(79, 91, 147, 0.15) 0%, transparent 50%);
+}
+body.dark-mode::before {
+    background: 
+        radial-gradient(circle at 15% 50%, rgba(79, 91, 147, 0.25) 0%, transparent 40%),
+        radial-gradient(circle at 85% 30%, rgba(118, 70, 255, 0.15) 0%, transparent 40%);
+}
 
-/* === Componentes Sidebar === */
-.sidebar-title { color: var(--color-heading); text-align: center; margin-top: 0; margin-bottom: 20px; padding: 20px 0; border-bottom: 1px solid var(--color-border); white-space: nowrap; }
-.theme-switcher { text-align: center; margin: 0 20px 20px 20px; }
-.theme-switcher button { width: 100%; background: transparent; border: 1px solid var(--color-border); color: var(--color-text); padding: 8px 12px; border-radius: 5px; cursor: pointer; white-space: nowrap; }
-.sidebar-nav ul { list-style: none; padding: 0 20px; margin: 0; }
-.sidebar-nav li { margin-bottom: 5px; }
-.sidebar-nav li a { display: flex; justify-content: space-between; align-items: center; color: var(--color-text); padding: 10px 15px; border-radius: 5px; white-space: nowrap; text-decoration: none; transition: background 0.2s; }
-.sidebar-nav li a:hover { background-color: rgba(0,0,0,0.05); }
-.sidebar-nav li.active a { background-color: var(--color-sidebar-active); color: #ffffff; font-weight: bold; }
+a { text-decoration: none; color: inherit; transition: all 0.2s ease; }
+ul { list-style: none; padding: 0; margin: 0; }
 
-/* === Buscador Sidebar === */
-.search-box { width: 100%; padding: 10px; border-radius: 5px; border: 1px solid var(--color-border); background-color: var(--color-input-bg); color: var(--color-input-text); transition: border-color 0.3s; }
-.search-box:focus { outline: none; border-color: var(--color-primary); }
+/* =========================================================
+   3. HEADER (Navegación Superior)
+   ========================================================= */
+.w3-header {
+    height: var(--nav-height);
+    background: var(--bg-glass);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border-color);
+    position: fixed;
+    top: 0; width: 100%; z-index: 2000;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 0 25px;
+}
 
-/* === Contenido === */
-.container { padding: 30px; background-color: var(--color-surface); border-radius: 8px; border: 1px solid var(--color-border); }
-h1, h2 { color: var(--color-heading); }
-h1 { text-align: center; margin-bottom: 20px; font-size: 2.5em; border: none; }
-h2 { border-bottom: 1px solid var(--color-border); padding-bottom: 10px; margin-top: 40px; }
-pre { max-width: 100%; overflow-x: auto; border-radius: 5px; padding: 15px; font-family: 'Fira Code', monospace; font-size: 16px; background: var(--color-pre-bg); border: 1px solid var(--color-border); }
-.nav-index { background: var(--color-nav-index-bg); padding: 15px; border-radius: 5px; margin-bottom: 30px; border: 1px solid var(--color-border); }
-.nav-index ul { list-style-type: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 15px; }
-.nav-index a { text-decoration: none; color: var(--color-primary); font-weight: bold; }
-.pagination-nav { padding: 20px; margin-top: 40px; background-color: var(--color-surface); border: 1px solid var(--color-border); border-radius: 8px; display: flex; justify-content: space-between; align-items: center; }
-.pagination-nav a { font-weight: bold; padding: 10px 15px; border-radius: 5px; background-color: var(--color-primary); color: #fff; text-decoration: none; transition: opacity 0.2s; }
-.pagination-nav a:hover { opacity: 0.9; }
-.pagination-nav .disabled { padding: 10px 15px; color: #6c757d; }
-.output-container { background-color: var(--color-pre-bg); border: 1px solid var(--color-border); padding: 15px; border-radius: 5px; margin-top: 10px; }
+.header-left, .header-right { display: flex; align-items: center; gap: 20px; }
 
-/* === Login / Registro === */
-.login-card { max-width: 400px; margin: 50px auto; padding: 30px; background-color: var(--color-surface); border-radius: 8px; border: 1px solid var(--color-border); box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
-.login-title { text-align: center; margin-bottom: 20px; color: var(--color-heading); }
-.form-group { margin-bottom: 15px; }
-.form-label { display: block; margin-bottom: 5px; font-weight: bold; color: var(--color-text); }
-.form-input { width: 100%; padding: 10px; border-radius: 4px; border: 1px solid var(--color-border); background-color: var(--color-input-bg); color: var(--color-input-text); box-sizing: border-box; }
-.form-input:focus { outline: none; border-color: var(--color-primary); }
-.btn-primary { width: 100%; padding: 10px; background-color: var(--color-primary); color: #fff; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; font-weight: bold; margin-bottom: 10px; transition: opacity 0.2s; }
-.btn-primary:hover { opacity: 0.9; }
-.btn-secondary { width: 100%; padding: 10px; background-color: transparent; color: var(--color-primary); border: 1px solid var(--color-primary); border-radius: 4px; cursor: pointer; font-size: 16px; transition: background-color 0.2s; }
-.btn-secondary:hover { background-color: rgba(0, 122, 204, 0.1); }
-.alert-error { background-color: rgba(231, 76, 60, 0.2); color: #e74c3c; padding: 10px; border-radius: 4px; border: 1px solid #e74c3c; margin-bottom: 20px; text-align: center; }
+/* Logo */
+.logo { font-size: 24px; font-weight: 800; letter-spacing: -0.5px; color: var(--text-main); }
 
-/* === Botones del Header === */
-.user-top-bar { position: fixed; top: 15px; right: 25px; z-index: 1002; display: flex; align-items: center; gap: 10px; }
-.btn-header-solid { background-color: var(--color-primary); color: white; padding: 8px 16px; border-radius: 20px; text-decoration: none; font-weight: bold; font-size: 14px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); transition: transform 0.2s, opacity 0.2s; }
-.btn-header-solid:hover { transform: translateY(-2px); opacity: 0.9; color: white; }
-.btn-header-outline { background-color: transparent; color: var(--color-text); padding: 6px 14px; border-radius: 20px; text-decoration: none; font-weight: bold; font-size: 14px; border: 1px solid var(--color-border); transition: background 0.2s; }
-.btn-header-outline:hover { background-color: var(--color-sidebar-bg); border-color: var(--color-primary); color: var(--color-primary); }
+/* Menú Top */
+.top-menu { display: flex; gap: 5px; }
+.top-menu a {
+    padding: 8px 12px; font-size: 15px; font-weight: 600; border-radius: 6px; color: var(--text-main);
+}
+.top-menu a:hover, .top-menu a.active {
+    background: rgba(122, 134, 184, 0.15); color: var(--primary-dark);
+}
 
-/* === Dropdown Usuario === */
-.user-dropdown { position: relative; display: inline-block; }
-.user-btn { background-color: var(--color-surface); color: var(--color-text); border: 1px solid var(--color-border); padding: 8px 15px; border-radius: 20px; cursor: pointer; font-size: 14px; display: flex; align-items: center; gap: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); transition: all 0.3s; }
-.user-btn:hover { border-color: var(--color-primary); background-color: var(--color-sidebar-bg); }
-.dropdown-content { display: none; position: absolute; right: 0; top: 110%; background-color: var(--color-surface); min-width: 180px; box-shadow: 0 8px 16px rgba(0,0,0,0.3); border-radius: 8px; border: 1px solid var(--color-border); z-index: 1; overflow: hidden; animation: fadeIn 0.2s ease-in-out; }
-.user-dropdown:hover .dropdown-content { display: block; }
-.dropdown-content a { color: var(--color-text); padding: 12px 16px; text-decoration: none; display: block; font-size: 14px; transition: background 0.2s; }
-.dropdown-content a:hover { background-color: var(--color-sidebar-bg); }
-.logout-link { color: #e74c3c !important; }
-.logout-link:hover { background-color: rgba(231, 76, 60, 0.1) !important; }
-@keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+/* Buscador Header */
+.search-wrapper { position: relative; }
+.search-wrapper input {
+    background: rgba(128, 128, 128, 0.1);
+    border: 1px solid var(--border-color);
+    border-radius: 50px; padding: 8px 15px 8px 35px;
+    color: var(--text-main); width: 200px; transition: width 0.3s;
+}
+.search-wrapper input:focus { 
+    width: 280px; border-color: var(--primary); outline: none; background: var(--bg-surface); 
+}
+.search-wrapper button {
+    position: absolute; left: 10px; top: 50%; transform: translateY(-50%);
+    background: transparent; border: none; color: var(--text-muted); cursor: pointer;
+}
 
-/* === Media Queries === */
+/* Botón Tema */
+.theme-toggle-btn {
+    background: transparent; border: 1px solid var(--border-color);
+    color: var(--text-main); width: 36px; height: 36px; border-radius: 50%;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+}
+.theme-toggle-btn:hover { border-color: var(--primary); color: var(--primary); }
+
+/* Usuario Dropdown */
+.user-dropdown {
+    position: relative;
+    padding-bottom: 15px; /* Crea un área de seguridad hacia abajo */
+    margin-bottom: -15px; /* Compensa el padding para no mover otros elementos */
+}
+.user-btn-round {
+    width: 38px; height: 38px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary-dark) 0%, #353b63 100%);
+    color: #fff; border: none; font-weight: bold; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+}
+.dropdown-content {
+    display: none;
+    position: absolute;
+    /* CAMBIO 1: De 120% a 100% para eliminar el hueco físico */
+    top: 100%; 
+    right: 0;
+    width: 220px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    box-shadow: var(--shadow-md);
+    z-index: 2001;
+    backdrop-filter: blur(20px);
+    
+    /* CAMBIO 2: Añadimos un padding superior invisible */
+    /* Esto crea un "puente" transparente para que el mouse nunca salga del hover */
+    padding-top: 10px; 
+    margin-top: 5px;
+}
+.user-dropdown:hover .dropdown-content { display: block; animation: fadeIn 0.2s; }
+.dropdown-content a { display: block; padding: 10px; border-radius: 6px; font-size: 14px; margin-bottom: 2px; }
+.dropdown-content a:hover { background: rgba(122, 134, 184, 0.1); color: var(--primary-dark); }
+.dropdown-header { padding: 10px; font-weight: bold; border-bottom: 1px solid var(--border-color); margin-bottom: 5px; font-size: 0.9em; color: var(--text-muted); }
+
+/* =========================================================
+   4. LAYOUT PRINCIPAL (SIDEBAR Y CONTENIDO)
+   ========================================================= */
+.main-wrapper {
+    display: flex;
+    flex: 1; /* Esto es crucial: empuja el footer hacia abajo */
+    padding-top: var(--nav-height);
+    position: relative;
+    width: 100%;
+}
+
+/* SIDEBAR */
+.sidebar {
+    width: var(--sidebar-width);
+    background: var(--bg-glass);
+    border-right: 1px solid var(--border-color);
+    position: fixed; 
+    top: var(--nav-height); 
+    bottom: 0; 
+    left: 0;
+    overflow-y: auto; 
+    z-index: 1000;
+    transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    backdrop-filter: blur(10px);
+}
+
+/* Sidebar Links (Arreglo de viñetas) */
+.sidebar-nav { list-style: none !important; margin: 0; padding: 0 10px; }
+.sidebar-nav li { margin-bottom: 4px; list-style: none !important; }
+
+.sidebar-nav li a {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 10px 15px; border-radius: 8px; font-size: 15px;
+    color: var(--text-main); transition: all 0.2s;
+    text-decoration: none;
+}
+
+.sidebar-nav li a:hover { 
+    background: rgba(0,0,0,0.04); 
+    color: var(--primary-dark); 
+}
+
+/* Item Activo del Sidebar */
+.sidebar-nav li.active a {
+    background: linear-gradient(90deg, rgba(122, 134, 184, 0.15) 0%, transparent 100%);
+    color: var(--primary-dark);
+    font-weight: 700;
+    border-left: 3px solid var(--primary);
+}
+/* Arreglo para modo oscuro */
+body.dark-mode .sidebar-nav li.active a { color: var(--accent); border-color: var(--accent); }
+
+/* CONTENIDO PRINCIPAL */
+.content {
+    flex-grow: 1;
+    margin-left: var(--sidebar-width); /* Deja espacio para el sidebar fijo */
+    padding: 40px;
+    width: calc(100% - var(--sidebar-width));
+    transition: margin-left 0.3s ease;
+}
+
+/* ESTADOS COLAPSADOS (Para el botón del header) */
+body.sidebar-collapsed .sidebar { transform: translateX(-100%); }
+body.sidebar-collapsed .content { margin-left: 0; width: 100%; }
+
+/* =========================================================
+   5. COMPONENTES INTERNOS (Cards, Botones)
+   ========================================================= */
+/* Contenedores estilo "Glass" */
+.container, .login-card, .quiz-container-embedded {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 40px;
+    box-shadow: var(--shadow-md);
+    margin-bottom: 30px;
+}
+
+h1 {
+    font-size: 2.5rem; font-weight: 800; margin-bottom: 1rem;
+    background: linear-gradient(to right, var(--text-main), var(--primary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Botones Principales (Eliminando azul viejo) */
+.btn-primary, .btn-header-solid {
+    background: linear-gradient(135deg, var(--primary-dark) 0%, #353b63 100%);
+    color: white !important;
+    padding: 12px 24px; border: none; border-radius: 50px;
+    font-weight: bold; cursor: pointer; display: inline-block;
+    box-shadow: 0 4px 10px rgba(79, 91, 147, 0.3);
+    transition: transform 0.2s; text-align: center;
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(79, 91, 147, 0.4); opacity: 0.95; }
+
+/* Código */
+pre {
+    background: rgba(0, 0, 0, 0.04);
+    border: 1px solid var(--border-color);
+    border-radius: 8px; padding: 20px; overflow-x: auto;
+    font-family: 'Fira Code', monospace; font-size: 15px;
+}
+body.dark-mode pre { background: rgba(0, 0, 0, 0.3); }
+
+/* =========================================================
+   6. FOOTER (W3SCHOOLS FIXED)
+   ========================================================= */
+.main-footer {
+    background: var(--bg-surface);
+    border-top: 1px solid var(--border-color);
+    padding: 20px 40px;
+    margin-top: auto; /* Esto asegura que se quede abajo si hay poco contenido */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 10;
+    backdrop-filter: blur(10px);
+}
+
+.footer-left, .footer-center, .footer-right { flex: 1; display: flex; }
+.footer-center { justify-content: center; text-align: center; }
+.footer-right { justify-content: flex-end; }
+
+/* Botones del Footer */
+.footer-nav-btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 10px 20px; border-radius: 50px; font-weight: bold; font-size: 15px;
+    background: transparent; border: 1px solid var(--border-color);
+    color: var(--text-main); transition: all 0.2s;
+}
+.footer-nav-btn:hover {
+    border-color: var(--primary); color: var(--primary); transform: translateY(-2px);
+}
+
+/* Botón Siguiente Destacado (Púrpura, no verde) */
+.footer-right .footer-nav-btn {
+    background: linear-gradient(135deg, var(--primary-dark) 0%, #353b63 100%);
+    color: white; border: none; box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+.footer-right .footer-nav-btn:hover {
+    color: white; opacity: 0.9;
+}
+
+/* =========================================================
+   7. RESPONSIVE
+   ========================================================= */
 @media (max-width: 768px) {
-    body:not(.sidebar-collapsed) #sidebar-toggle-btn { transform: translateX(280px); }
-    .sidebar { position: fixed; z-index: 1000; transform: translateX(0); }
-    body.sidebar-collapsed .sidebar { transform: translateX(-100%); }
-    .content { padding: 20px; }
-    .btn-header-outline { display: none; }
+    .sidebar { transform: translateX(-100%); }
+    body.sidebar-active .sidebar { transform: translateX(0); }
+    
+    .content { margin-left: 0; width: 100%; padding: 20px; }
+    
+    .top-menu, .search-wrapper input { display: none; }
+    
+    .main-footer { flex-direction: column; gap: 15px; }
+    .footer-left, .footer-center, .footer-right { width: 100%; justify-content: center; }
+}
+
+@keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+
+/* =========================================================
+   8. ESTILOS PARA EL ÍNDICE RÁPIDO (NAV-INDEX)
+   ========================================================= */
+   .nav-index {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 25px;
+    margin: 30px 0;
+    box-shadow: var(--shadow-sm);
+}
+
+.nav-index h2 {
+    margin-top: 0 !important;
+    font-size: 1.2rem;
+    color: var(--primary-dark);
+    border-bottom: 2px solid var(--primary);
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.nav-index ul {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 10px;
+    padding: 0;
+    list-style: none !important; /* Quitamos las viñetas */
+}
+
+.nav-index li {
+    margin: 0 !important;
+}
+
+.nav-index a {
+    display: block;
+    padding: 8px 12px;
+    background: rgba(122, 134, 184, 0.05);
+    border-radius: 6px;
+    color: var(--text-main);
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+}
+
+/* Efecto Hover al estilo PHP 8.5 */
+.nav-index a:hover {
+    background: var(--primary);
+    color: white !important;
+    transform: translateX(5px);
+    border-color: var(--primary-dark);
+}
+
+/* Ajuste para modo oscuro */
+body.dark-mode .nav-index a {
+    background: rgba(255, 255, 255, 0.05);
+}
+body.dark-mode .nav-index a:hover {
+    background: var(--accent);
+    color: white !important;
+}
+
+/* =========================================================
+   9. ESTILOS PARA TABLAS COMPARATIVAS
+   ========================================================= */
+   .container table {
+    width: 100%;
+    border-collapse: separate; /* Permite bordes redondeados */
+    border-spacing: 0;
+    margin: 25px 0;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    overflow: hidden; /* Corta las esquinas de las filas */
+    box-shadow: var(--shadow-sm);
+}
+
+.container th {
+    background-color: var(--primary-dark);
+    color: white;
+    padding: 15px;
+    text-align: left;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.container td {
+    padding: 15px;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-main);
+    font-size: 0.95rem;
+}
+
+/* Zebra striping (Filas alternas) */
+.container tr:nth-child(even) {
+    background-color: rgba(122, 134, 184, 0.03);
+}
+
+/* Efecto hover en la fila */
+.container tr:hover td {
+    background-color: rgba(122, 134, 184, 0.08);
+    transition: background 0.2s ease;
+}
+
+/* Eliminar borde de la última fila */
+.container tr:last-child td {
+    border-bottom: none;
+}
+
+/* Etiquetas destacadas dentro de tablas (opcional) */
+.container td code {
+    background: rgba(108, 92, 231, 0.1);
+    color: var(--accent);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-weight: bold;
 }

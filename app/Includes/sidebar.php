@@ -1,55 +1,37 @@
-<?php // app/Includes/sidebar.php 
+<?php 
+// app/Includes/sidebar.php
 $paginaActual = $_GET['p'] ?? 'inicio';
-
-// Aseguramos que la variable exista para evitar errores si no se pasa desde index
-if (!isset($temasCompletados)) {
-    $temasCompletados = [];
-}
+if (!isset($temasCompletados)) { $temasCompletados = []; }
 ?>
 
 <aside class="sidebar">
-    <h3 class="sidebar-title">Guía de PHP</h3>
-
-    <div class="theme-switcher">
-        <button id="theme-toggle-btn">Cambiar Tema</button>
-    </div>
-
-    <div style="padding: 0 20px 20px 20px;">
-        <form action="index.php" method="get">
-            <input type="hidden" name="p" value="buscar">
-            <input type="text" name="q" class="search-box" placeholder="Buscar..." required>
-        </form>
+    <div style="padding: 25px 20px 10px;">
+        <h4 style="margin:0; font-weight:800; color:var(--color-heading); font-size:1.1rem;">PHP Tutorial</h4>
     </div>
 
     <nav>
         <ul class="sidebar-nav">
-            <?php if (empty($datosTemas)): ?>
-                <li>
-                    <p style="padding:10px; color:#f88;">No hay temas disponibles.</p>
+            <?php if (isset($datosTemas) && !empty($datosTemas)): ?>
+                <li class="<?php echo ($paginaActual == 'inicio') ? 'active' : ''; ?>">
+                    <a href="inicio">Introducción</a>
                 </li>
-            <?php else: ?>
+
                 <?php foreach ($datosTemas as $tema): ?>
-                    <?php
-                    $esActivo = ($paginaActual == $tema['slug']) ? 'active' : '';
-                    // Verificamos si este tema está en la lista de completados
-                    $estaCompletado = in_array($tema['slug'], $temasCompletados);
+                    <?php 
+                        $esActivo = ($paginaActual == $tema['slug']) ? 'active' : '';
+                        $estaCompletado = in_array($tema['slug'], $temasCompletados);
                     ?>
                     <li class="<?php echo $esActivo; ?>">
-                        <a href="<?php echo $tema['slug']; ?>"
-                            style="display: flex; justify-content: space-between; align-items: center;">
-
-                            <span>
-                                <?php echo htmlspecialchars($tema['titulo']); ?>
-                            </span>
-
-                            <span style="font-size:0.8em;">
-                                <?php if ($tema['es_premium']): ?> 💎 <?php endif; ?>
-                                <?php if ($estaCompletado): ?> ✅ <?php endif; ?>
-                            </span>
-
+                        <a href="<?php echo $tema['slug']; ?>" style="display:flex; justify-content:space-between; align-items:center;">
+                            <?php echo htmlspecialchars($tema['titulo']); ?>
+                            <?php if ($estaCompletado): ?> 
+                                <i class="fas fa-check" style="color:var(--color-primary); font-size:0.8em;"></i>
+                            <?php endif; ?>
                         </a>
                     </li>
                 <?php endforeach; ?>
+            <?php else: ?>
+                <li style="padding:15px; font-size:0.9em; color:#888;">Cargando temas...</li>
             <?php endif; ?>
         </ul>
     </nav>
