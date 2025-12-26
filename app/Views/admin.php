@@ -15,7 +15,7 @@
     <?php endif; ?>
 
     <div class="login-card" style="max-width: 800px; margin: 0 auto;">
-        <form action="index.php?p=admin_crear" method="POST">
+        <form action="index.php?p=admin_crear" method="POST" enctype="multipart/form-data">
             
             <div class="form-group">
                 <label class="form-label">Título del Tema</label>
@@ -33,6 +33,11 @@
                 <input type="text" name="descripcion" class="form-input" placeholder="Breve resumen para el menú">
             </div>
 
+            <div class="form-group">
+                <label class="form-label">Imagen de Portada (Opcional)</label>
+                <input type="file" name="imagen" class="form-input" accept="image/*">
+                <small style="color: #888;">Formatos: JPG, PNG, GIF. Máx 2MB.</small>
+            </div>
             <div style="display: flex; gap: 20px;">
                 <div class="form-group" style="flex: 1;">
                     <label class="form-label">Orden (Número)</label>

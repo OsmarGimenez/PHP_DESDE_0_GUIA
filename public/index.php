@@ -13,7 +13,7 @@ $pagina = $_GET['p'] ?? 'inicio';
 // LOGOUT
 if ($pagina === 'logout') {
     session_destroy();
-    header("Location: index.php?p=inicio");
+    header("Location: inicio");
     exit;
 }
 
@@ -34,14 +34,20 @@ if ($pagina === 'admin_crear') {
     require_once '../app/Controllers/admin_crear.php';
     exit;
 }
-// =================================================
 
 // === NUEVO: PROCESAR PERFIL ===
 if ($pagina === 'perfil_actualizar') {
     require_once '../app/Controllers/perfil_actualizar.php';
     exit;
 }
-// ==============================
+
+// === NUEVO: PROCESAR VALIDACIÓN DE EXAMEN ===
+if ($pagina === 'quiz_validar') {
+    require_once '../app/Controllers/quiz_validar.php';
+    exit;
+}
+// ============================================
+
 
 // 2. Lógica del Modelo
 try {
@@ -55,7 +61,7 @@ try {
     }
 
     // Preparar whitelist básica
-    // Agregamos 'admin' a la lista para que sea una página válida
+    // Agregamos 'admin' y 'perfil' a la lista
     $paginasPermitidas = ['buscar', 'login', 'inicio', 'admin', 'perfil'];
     $infoTemas = [];
 
@@ -73,7 +79,8 @@ if (in_array($pagina, $paginasPermitidas)) {
     if ($pagina === 'buscar') $titulo = 'Búsqueda';
     elseif ($pagina === 'login') $titulo = 'Ingresar';
     elseif ($pagina === 'inicio') $titulo = 'Inicio';
-    elseif ($pagina === 'admin') $titulo = 'Panel de Administración'; // Título para Admin
+    elseif ($pagina === 'admin') $titulo = 'Panel de Administración';
+    elseif ($pagina === 'perfil') $titulo = 'Mi Perfil';
     else $titulo = $infoTemas[$pagina]['titulo'];
 } else {
     $pagina = '404';
@@ -84,7 +91,7 @@ if (in_array($pagina, $paginasPermitidas)) {
 if ($pagina === 'admin') {
     // Si no está logueado O su ID no es 1, fuera.
     if (!isset($_SESSION['user_id']) || $_SESSION['user_id'] != 1) {
-        header("Location: index.php?p=inicio&error=acceso_denegado");
+        header("Location: inicio?error=acceso_denegado");
         exit;
     }
 }
@@ -94,7 +101,7 @@ if (isset($infoTemas[$pagina]) && $infoTemas[$pagina]['es_premium'] == 1) {
 
     // 1. Validar si está logueado
     if (!isset($_SESSION['user_id'])) {
-        header("Location: index.php?p=login&error=necesitas_login");
+        header("Location: login?error=necesitas_login");
         exit;
     }
 
@@ -109,7 +116,7 @@ if (isset($infoTemas[$pagina]) && $infoTemas[$pagina]['es_premium'] == 1) {
 
     // Solo permitimos admins o usuarios premium
     if ($rolUsuario !== 'admin' && $rolUsuario !== 'premium') {
-        header("Location: index.php?p=inicio&error=no_tienes_permiso_premium");
+        header("Location: inicio?error=no_tienes_permiso_premium");
         exit;
     }
 }
@@ -118,7 +125,7 @@ if (isset($infoTemas[$pagina]) && $infoTemas[$pagina]['es_premium'] == 1) {
 include '../app/Includes/header.php';
 include '../app/Includes/sidebar.php';
 
-// Mapeo de vistas
+// Mapeo de vistas especiales
 if ($pagina === 'inicio') {
     $archivoVista = "../app/Views/00.inicio.php";
 } elseif ($pagina === 'login') {
@@ -126,8 +133,9 @@ if ($pagina === 'inicio') {
 } elseif ($pagina === '404') {
     $archivoVista = "../app/Views/404.php";
 } elseif ($pagina === 'admin') {
-    // Mapeo para la vista de admin
     $archivoVista = "../app/Views/admin.php";
+} elseif ($pagina === 'perfil') {
+    $archivoVista = "../app/Views/perfil.php";
 } else {
     $archivoVista = "../app/Views/$pagina.php";
 }
@@ -137,19 +145,63 @@ echo "<main class='content'>";
 if (file_exists($archivoVista)) {
     include $archivoVista;
 
-    // === Botón de Completar Lección ===
-    // No mostramos el botón en admin, inicio, 404, login ni buscar
-    if (isset($_SESSION['user_id']) && !in_array($pagina, ['inicio', '404', 'buscar', 'login', 'admin'])) {
-
+    // === LÓGICA DE EXAMEN Y PROGRESO ===
+    // Solo mostramos esto si el usuario está logueado y no es una página del sistema
+    if (isset($_SESSION['user_id']) && !in_array($pagina, ['inicio', '404', 'buscar', 'login', 'admin', 'perfil'])) {
+        
         $yaCompletado = in_array($pagina, $temasCompletados);
-?>
+        
+        // 1. Buscamos si hay preguntas para este tema
+        require_once '../app/Models/Quiz.php';
+        $quizModel = new \App\Models\Quiz($pdo);
+        // Necesitamos el ID del tema actual. Lo buscamos en $infoTemas
+        $temaActualId = $infoTemas[$pagina]['id'] ?? 0;
+        $preguntasQuiz = $quizModel->obtenerPorTema($temaActualId);
+        $tieneQuiz = count($preguntasQuiz) > 0;
+        ?>
+
         <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--color-border);">
+            
             <?php if ($yaCompletado): ?>
                 <div style="background: rgba(40, 167, 69, 0.2); color: #2ecc71; padding: 15px; border-radius: 5px; text-align: center; border: 1px solid #2ecc71;">
                     <i class="fas fa-check-circle"></i> <strong>¡Lección Completada!</strong>
+                    <?php if ($tieneQuiz) echo "<br><small>Aprobaste el examen.</small>"; ?>
                 </div>
+
+            <?php elseif ($tieneQuiz): ?>
+                <div style="background: var(--color-sidebar-bg); padding: 20px; border-radius: 8px; border: 1px solid var(--color-primary);">
+                    <h3 style="color: var(--color-primary); margin-top:0;"><i class="fas fa-pencil-alt"></i> Examen de Conocimientos</h3>
+                    
+                    <?php if (isset($_GET['error']) && $_GET['error'] == 'quiz_reprobado'): ?>
+                        <div class="alert-error">❌ No aprobaste. Inténtalo de nuevo.</div>
+                    <?php endif; ?>
+
+                    <form action="quiz_validar" method="POST">
+                        <input type="hidden" name="slug" value="<?php echo htmlspecialchars($pagina); ?>">
+                        <input type="hidden" name="tema_id" value="<?php echo $temaActualId; ?>">
+                        
+                        <?php foreach ($preguntasQuiz as $index => $p): ?>
+                            <div style="margin-bottom: 20px;">
+                                <p style="font-weight: bold; margin-bottom: 10px;">
+                                    <?php echo ($index + 1) . ". " . htmlspecialchars($p['texto_pregunta']); ?>
+                                </p>
+                                <?php foreach ($p['opciones'] as $op): ?>
+                                    <div style="margin-bottom: 5px;">
+                                        <label style="cursor: pointer;">
+                                            <input type="radio" name="respuesta[<?php echo $p['id']; ?>]" value="<?php echo $op['id']; ?>" required>
+                                            <?php echo htmlspecialchars($op['texto_opcion']); ?>
+                                        </label>
+                                    </div>
+                                <?php endforeach; ?>
+                            </div>
+                        <?php endforeach; ?>
+                        
+                        <button type="submit" class="btn-primary">Enviar Respuestas</button>
+                    </form>
+                </div>
+
             <?php else: ?>
-                <form action="index.php?p=progreso" method="POST">
+                <form action="progreso" method="POST">
                     <input type="hidden" name="slug" value="<?php echo htmlspecialchars($pagina); ?>">
                     <button type="submit" class="btn-primary" style="background-color: #28a745; width: auto; padding: 10px 30px;">
                         <i class="fas fa-check"></i> Marcar como Leído
@@ -157,14 +209,15 @@ if (file_exists($archivoVista)) {
                 </form>
             <?php endif; ?>
         </div>
-<?php
+        <?php
     }
     // ==================================
 
-    // Paginación (Excluimos admin también)
-    if (!in_array($pagina, ['inicio', '404', 'buscar', 'login', 'admin'])) {
+    // Paginación (Excluimos páginas de sistema)
+    if (!in_array($pagina, ['inicio', '404', 'buscar', 'login', 'admin', 'perfil'])) {
         include '../app/Includes/pagination.php';
     }
+
 } else {
     echo "<div class='container'><h1>Próximamente</h1><p>El contenido para <strong>" . htmlspecialchars($titulo) . "</strong> se está redactando.</p></div>";
 }

@@ -59,10 +59,10 @@ class Tema {
         return $stmt->fetchAll(PDO::FETCH_COLUMN);
     }
 
-    public function crearTema($titulo, $slug, $descripcion, $orden, $esPremium) {
-        $sql = "INSERT INTO temas (titulo, slug, descripcion, orden, es_premium) VALUES (?, ?, ?, ?, ?)";
+    public function crearTema($titulo, $slug, $descripcion, $orden, $esPremium, $imagen = null) {
+        $sql = "INSERT INTO temas (titulo, slug, descripcion, orden, es_premium, imagen) VALUES (?, ?, ?, ?, ?, ?)";
         $stmt = $this->pdo->prepare($sql);
-        return $stmt->execute([$titulo, $slug, $descripcion, $orden, $esPremium]);
+        return $stmt->execute([$titulo, $slug, $descripcion, $orden, $esPremium, $imagen]);
     }
 }
 ?>

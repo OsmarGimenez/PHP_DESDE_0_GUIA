@@ -1,15 +1,15 @@
 <?php
 // app/Controllers/progreso.php
 
-// 1. Iniciamos sesión si no está iniciada (por seguridad, aunque index.php ya lo hace)
+// 1. Iniciamos sesión si no está iniciada
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
 // 2. Verificar que el usuario esté logueado
 if (!isset($_SESSION['user_id'])) {
-    // Si no está logueado, lo mandamos al login
-    header("Location: index.php?p=login&error=debes_iniciar_sesion");
+    // CORREGIDO: URL limpia hacia login
+    header("Location: login?error=debes_iniciar_sesion");
     exit;
 }
 
@@ -24,7 +24,8 @@ $userId = $_SESSION['user_id'];
 
 // Validación simple
 if (empty($slugActual)) {
-    header("Location: index.php?p=inicio");
+    // CORREGIDO: URL limpia hacia inicio
+    header("Location: inicio");
     exit;
 }
 
@@ -40,14 +41,17 @@ try {
     }
 
     // 6. Redireccionamos al usuario a la misma página
-    // Agregamos ?completed=1 para poder mostrar un mensaje de éxito visualmente
-    header("Location: index.php?p=" . $slugActual . "&completed=1");
+    // CORREGIDO: Redirección directa al slug (ej: /01.etiquetas?completed=1)
+    // Nota: Cambiamos '&' por '?' porque ahora es el primer parámetro
+    header("Location: " . $slugActual . "?completed=1");
     exit;
 
 } catch (Exception $e) {
     // Si falla algo, lo registramos y volvemos sin romper la página
     error_log("Error al guardar progreso: " . $e->getMessage());
-    header("Location: index.php?p=" . $slugActual . "&error=error_sistema");
+    
+    // CORREGIDO: Redirección limpia con error
+    header("Location: " . $slugActual . "?error=error_sistema");
     exit;
 }
 ?>

@@ -1,13 +1,12 @@
 <?php
 // app/Controllers/auth.php
 
-// Verificamos si la sesión ya está iniciada (porque index.php ya lo hace)
+// Verificamos si la sesión ya está iniciada
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// CORRECCIÓN DE RUTA: 
-// Usamos __DIR__ para decir "Desde este directorio (Controllers), baja uno y entra a Includes"
+// Conexión a Base de Datos
 require_once __DIR__ . '/../Includes/db.php';
 
 $accion = $_POST['accion'] ?? '';
@@ -15,16 +14,18 @@ $email = trim($_POST['email'] ?? '');
 $password = $_POST['password'] ?? '';
 $nombre = trim($_POST['nombre'] ?? '');
 
-// Validación básica
+// Validación básica (Campos vacíos)
 if (!$email || !$password) {
-    header("Location: index.php?p=login&error=Faltan datos obligatorios");
+    // CORREGIDO: URL Amigable
+    header("Location: login?error=Faltan datos obligatorios");
     exit;
 }
 
 if ($accion === 'registro') {
     // Validar nombre en registro
     if (empty($nombre)) {
-        header("Location: index.php?p=login&error=El nombre es obligatorio");
+        // CORREGIDO: URL Amigable + mantenemos el modo registro
+        header("Location: login?mode=registro&error=El nombre es obligatorio");
         exit;
     }
 
@@ -33,7 +34,8 @@ if ($accion === 'registro') {
         $stmt = $pdo->prepare("SELECT id FROM usuarios WHERE email = ?");
         $stmt->execute([$email]);
         if ($stmt->fetch()) {
-            header("Location: index.php?p=login&error=El email ya está registrado");
+            // CORREGIDO: URL Amigable + modo registro
+            header("Location: login?mode=registro&error=El email ya está registrado");
             exit;
         }
 
@@ -45,13 +47,18 @@ if ($accion === 'registro') {
         // 3. Auto-login inmediato
         $_SESSION['user_id'] = $pdo->lastInsertId();
         $_SESSION['user_name'] = $nombre;
+        // Asignamos rol por defecto en sesión para evitar errores si la DB lo deja NULL
+        $_SESSION['user_rol'] = 'estudiante'; 
 
-        header("Location: index.php?p=inicio");
+        // CORREGIDO: Redirección limpia al inicio
+        header("Location: inicio");
+        
     } catch (PDOException $e) {
-        // En producción, registra el error real en un log y muestra algo genérico
         error_log($e->getMessage());
-        header("Location: index.php?p=login&error=Error al registrar usuario");
+        // CORREGIDO
+        header("Location: login?mode=registro&error=Error al registrar usuario");
     }
+
 } elseif ($accion === 'login') {
     // Lógica de Login
     $stmt = $pdo->prepare("SELECT id, nombre, password, rol FROM usuarios WHERE email = ?");
@@ -61,13 +68,17 @@ if ($accion === 'registro') {
     if ($user && password_verify($password, $user['password'])) {
         $_SESSION['user_id'] = $user['id'];
         $_SESSION['user_name'] = $user['nombre'];
-        $_SESSION['user_rol'] = $user['rol']; // <--- NUEVO: Guardamos el rol
+        $_SESSION['user_rol'] = $user['rol']; 
 
-        header("Location: index.php?p=inicio");
+        // CORREGIDO: Redirección limpia al inicio
+        header("Location: inicio");
     } else {
-        header("Location: index.php?p=login&error=Credenciales incorrectas");
+        // CORREGIDO: Redirección limpia al login con error
+        header("Location: login?error=Credenciales incorrectas");
     }
+
 } else {
-    // Si llegan aquí sin acción válida, devolver al login
-    header("Location: index.php?p=login");
+    // Si llegan aquí sin acción válida
+    header("Location: login");
 }
+?>

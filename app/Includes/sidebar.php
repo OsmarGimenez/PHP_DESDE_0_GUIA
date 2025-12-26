@@ -35,7 +35,7 @@ if (!isset($temasCompletados)) {
                     $estaCompletado = in_array($tema['slug'], $temasCompletados);
                     ?>
                     <li class="<?php echo $esActivo; ?>">
-                        <a href="index.php?p=<?php echo $tema['slug']; ?>"
+                        <a href="<?php echo $tema['slug']; ?>"
                             style="display: flex; justify-content: space-between; align-items: center;">
 
                             <span>
