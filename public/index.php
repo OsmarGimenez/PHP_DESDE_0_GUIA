@@ -53,7 +53,7 @@ try {
     // --- CORRECCIÓN 2: Filtro Anti-Duplicado ---
     // Eliminamos '00.inicio' del array de datos para que no salga en el menú
     // ni en la lógica de navegación next/prev, ya que 'inicio' se maneja manual.
-    $datosTemas = array_filter($datosTemas, function($t) {
+    $datosTemas = array_filter($datosTemas, function ($t) {
         return $t['slug'] !== '00.inicio';
     });
 
@@ -131,6 +131,24 @@ else $archivoVista = "../app/Views/$pagina.php";
 
 echo "<main class='content'>";
 
+// --- NUEVA NAVEGACIÓN SUPERIOR ---
+// Solo mostramos si hay botones y no es una página estática (inicio, login, etc.)
+if (!in_array($pagina, ['inicio', '404', 'buscar', 'login', 'admin', 'perfil'])) {
+    echo '<div class="top-nav-buttons">';
+    // Botón Anterior
+    if ($btnPrev) {
+        echo '<a href="' . $btnPrev . '" class="nav-btn-mini"><i class="fas fa-arrow-left"></i> Anterior</a>';
+    } else {
+        echo '<span></span>'; // Espaciador si no hay anterior
+    }
+
+    // Botón Siguiente
+    if ($btnNext) {
+        echo '<a href="' . $btnNext . '" class="nav-btn-mini highlight">Siguiente <i class="fas fa-arrow-right"></i></a>';
+    }
+    echo '</div>';
+}
+
 if (file_exists($archivoVista)) {
     include $archivoVista;
 
@@ -187,7 +205,6 @@ if (file_exists($archivoVista)) {
                 <strong>Registra tu progreso:</strong> <a href="login">Inicia Sesión</a> para guardar tus avances y obtener certificados.
               </div>';
     }
-
 } else {
     echo "<div class='container'><h1>Próximamente</h1><p>El contenido se está redactando.</p></div>";
 }

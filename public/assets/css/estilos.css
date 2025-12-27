@@ -238,6 +238,9 @@ body.dark-mode .sidebar-nav li.active a { color: var(--accent); border-color: va
 /* ESTADOS COLAPSADOS (Para el botón del header) */
 body.sidebar-collapsed .sidebar { transform: translateX(-100%); }
 body.sidebar-collapsed .content { margin-left: 0; width: 100%; }
+body.sidebar-collapsed .main-footer {
+    margin-left: 0;
+}
 
 /* =========================================================
    5. COMPONENTES INTERNOS (Cards, Botones)
@@ -280,18 +283,21 @@ pre {
 body.dark-mode pre { background: rgba(0, 0, 0, 0.3); }
 
 /* =========================================================
-   6. FOOTER (W3SCHOOLS FIXED)
+   6. FOOTER
    ========================================================= */
-.main-footer {
+   .main-footer {
     background: var(--bg-surface);
     border-top: 1px solid var(--border-color);
     padding: 20px 40px;
-    margin-top: auto; /* Esto asegura que se quede abajo si hay poco contenido */
+    margin-top: auto;
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    
+    /* --- NUEVO: Añadir margen y transición --- */
+    margin-left: var(--sidebar-width); /* Deja espacio para el sidebar */
+    transition: margin-left 0.3s ease; /* Animación suave */
+    position: relative;
     z-index: 10;
-    backdrop-filter: blur(10px);
 }
 
 .footer-left, .footer-center, .footer-right { flex: 1; display: flex; }
@@ -451,4 +457,44 @@ body.dark-mode .nav-index a:hover {
     padding: 2px 6px;
     border-radius: 4px;
     font-weight: bold;
+}
+
+/* =========================================================
+   10. NAVEGACIÓN SUPERIOR MINI (TOP-NAV)
+   ========================================================= */
+   .top-nav-buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.nav-btn-mini {
+    padding: 6px 14px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    border-radius: 50px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    color: var(--text-main);
+    transition: all 0.2s;
+}
+
+.nav-btn-mini:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+    transform: translateY(-1px);
+}
+
+/* Resaltar el botón Siguiente */
+.nav-btn-mini.highlight {
+    background: var(--primary);
+    color: white !important;
+    border-color: var(--primary-dark);
+}
+
+.nav-btn-mini.highlight:hover {
+    opacity: 0.9;
 }
