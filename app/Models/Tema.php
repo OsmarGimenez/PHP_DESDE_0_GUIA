@@ -13,7 +13,7 @@ class Tema {
 
     // 1. Obtener todos los temas (Existente)
     public function obtenerTodos() {
-        $sql = "SELECT id, titulo, slug, es_premium, descripcion FROM temas ORDER BY orden ASC";
+        $sql = "SELECT id, titulo, slug, descripcion FROM temas ORDER BY orden ASC";
         // Nota: Agregué 'id' al SELECT porque lo necesitaremos para relacionar
         $stmt = $this->pdo->query($sql);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -59,10 +59,10 @@ class Tema {
         return $stmt->fetchAll(PDO::FETCH_COLUMN);
     }
 
-    public function crearTema($titulo, $slug, $descripcion, $orden, $esPremium, $imagen = null) {
-        $sql = "INSERT INTO temas (titulo, slug, descripcion, orden, es_premium, imagen) VALUES (?, ?, ?, ?, ?, ?)";
+    public function crearTema($titulo, $slug, $descripcion, $orden, $imagen = null) {
+        $sql = "INSERT INTO temas (titulo, slug, descripcion, orden, imagen) VALUES (?, ?, ?, ?, ?)";
         $stmt = $this->pdo->prepare($sql);
-        return $stmt->execute([$titulo, $slug, $descripcion, $orden, $esPremium, $imagen]);
+        return $stmt->execute([$titulo, $slug, $descripcion, $orden, $imagen]);
     }
 }
 ?>

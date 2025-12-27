@@ -30,7 +30,6 @@
                 <a href="<?php echo $tema['slug']; ?>" style="display: block; background: rgba(255,255,255,0.05); padding: 15px; margin-bottom: 10px; border-radius: 8px; text-decoration: none; border-left: 4px solid #007acc; transition: transform 0.2s;">
                     <h3 style="margin: 0 0 5px 0; color: #007acc;">
                         <?php echo htmlspecialchars($tema['titulo']); ?>
-                        <?php if ($tema['es_premium']): ?> 💎 <?php endif; ?>
                     </h3>
                     <?php if ($tema['descripcion']): ?>
                         <p style="margin: 0; color: #aaa; font-size: 0.9em;"><?php echo htmlspecialchars($tema['descripcion']); ?></p>
