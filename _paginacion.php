@@ -56,6 +56,11 @@ if ($indiceActual !== false && $indiceActual < (count($paginas) - 1)) {
         background-color: #007bff;
         color: #fff;
     }
+    .pagination-nav a:focus-visible {
+        outline: 2px solid #0056b3;
+        outline-offset: 2px;
+        box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.25);
+    }
     .pagination-nav .disabled {
         color: #6c757d;
         background-color: #e9ecef;
@@ -65,18 +70,18 @@ if ($indiceActual !== false && $indiceActual < (count($paginas) - 1)) {
     }
 </style>
 
-<nav class="pagination-nav">
+<nav class="pagination-nav" aria-label="Paginación de la guía">
     <?php if ($paginaAnterior): ?>
-        <a href="<?php echo $paginaAnterior; ?>">← Anterior</a>
+        <a href="<?php echo $paginaAnterior; ?>" aria-label="Página anterior">← Anterior</a>
     <?php else: ?>
-        <span class="disabled">← Anterior</span>
+        <span class="disabled" aria-hidden="true">← Anterior</span>
     <?php endif; ?>
 
-    <a href="inicio.php">Volver al Índice</a>
+    <a href="inicio.php" aria-label="Volver al índice principal">Volver al Índice</a>
 
     <?php if ($paginaSiguiente): ?>
-        <a href="<?php echo $paginaSiguiente; ?>">Siguiente →</a>
+        <a href="<?php echo $paginaSiguiente; ?>" aria-label="Página siguiente">Siguiente →</a>
     <?php else: ?>
-        <span class="disabled">Siguiente →</span>
+        <span class="disabled" aria-hidden="true">Siguiente →</span>
     <?php endif; ?>
 </nav>
