@@ -31,7 +31,7 @@ $prismHref = ($themeCookie === 'dark')
 
     <header class="w3-header">
         <div class="header-left">
-            <button id="sidebar-toggle-btn" style="background:none; border:none; color:var(--color-text); font-size:20px; cursor:pointer;" title="Menú"><i class="fas fa-bars"></i></button>
+            <button id="sidebar-toggle-btn" aria-label="Alternar menú lateral" style="background:none; border:none; color:var(--color-text); font-size:20px; cursor:pointer;" title="Menú"><i class="fas fa-bars" aria-hidden="true"></i></button>
             <a href="inicio" class="logo" style="display: flex; align-items: center; text-decoration: none;">
                 <span style="color: var(--primary); font-weight: 900;">PHP</span>
                 <span style="color: var(--text-main);">LEARN</span>
@@ -49,18 +49,18 @@ $prismHref = ($themeCookie === 'dark')
             <form action="inicio" method="get" class="top-search-form">
                 <input type="hidden" name="p" value="buscar">
                 <div class="search-wrapper">
-                    <input type="text" name="q" placeholder="Buscar..." required>
-                    <button type="submit"><i class="fas fa-search"></i></button>
+                    <input type="text" name="q" placeholder="Buscar..." aria-label="Término de búsqueda" required>
+                    <button type="submit" aria-label="Buscar"><i class="fas fa-search" aria-hidden="true"></i></button>
                 </div>
             </form>
 
-            <button id="theme-toggle" class="theme-toggle-btn" title="Cambiar Tema">
-                <i class="fas fa-moon"></i>
+            <button id="theme-toggle" class="theme-toggle-btn" aria-label="Alternar tema" title="Cambiar Tema">
+                <i class="fas fa-moon" aria-hidden="true"></i>
             </button>
 
             <?php if (isset($_SESSION['user_id'])): ?>
                 <div class="user-dropdown">
-                    <button class="user-btn-round">
+                    <button class="user-btn-round" aria-label="Menú de perfil de usuario">
                         <?php echo strtoupper(substr($_SESSION['user_name'], 0, 1)); ?>
                     </button>
                     <div class="dropdown-content">
