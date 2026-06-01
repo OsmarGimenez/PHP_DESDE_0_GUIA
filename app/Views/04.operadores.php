@@ -207,7 +207,7 @@ $nombreUsuario = $_GET['user'] ?? "Invitado";
             echo "1. ¿Es mayor de edad?: " . (($edad >= 18) ? "Sí" : "No") . "\n";
             $stock = 0;
             echo "2. Color del botón: " . (($stock > 0) ? "verde" : "rojo") . "\n";
-            echo "3. Nombre de usuario: " . ($_GET['user'] ?? "Invitado") . "\n";
+            echo "3. Nombre de usuario: " . htmlspecialchars($_GET['user'] ?? "Invitado") . "\n";
         ?></pre>
     </section>
 
